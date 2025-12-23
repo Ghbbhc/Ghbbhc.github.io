@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="​	讲OB混淆前，先要讲讲什么是混淆，混淆就是在不影响原本的代码的逻辑情况下对代码的形式和结构进行变动，使代码变得难以阅读和理解，增加代码逆向的难度。 ​	在JavaScript中，OB混淆一般是指的网站 https:&#x2F;&#x2F;obfuscator.io 提供的代码混淆，这里面提供了一个JavaScript代码混淆工具，可进行多种类型的代码混淆。 OB混淆识别​	OB混淆基本上由四个部分组成： 1234">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS逆向-OB混淆">
+<meta property="og:url" content="http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/index.html">
+<meta property="og:site_name" content="Maododo&#39;s Blog">
+<meta property="og:description" content="​	讲OB混淆前，先要讲讲什么是混淆，混淆就是在不影响原本的代码的逻辑情况下对代码的形式和结构进行变动，使代码变得难以阅读和理解，增加代码逆向的难度。 ​	在JavaScript中，OB混淆一般是指的网站 https:&#x2F;&#x2F;obfuscator.io 提供的代码混淆，这里面提供了一个JavaScript代码混淆工具，可进行多种类型的代码混淆。 OB混淆识别​	OB混淆基本上由四个部分组成： 1234">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-23T06:29:05.000Z">
+<meta property="article:modified_time" content="2025-12-23T15:29:11.517Z">
+<meta property="article:author" content="Maododo">
+<meta property="article:tag" content="JS逆向">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS逆向-OB混淆</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&text=JS逆向-OB混淆"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&is_video=false&description=JS逆向-OB混淆"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS逆向-OB混淆&body=Check out this article: http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&name=JS逆向-OB混淆&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&t=JS逆向-OB混淆"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OB%E6%B7%B7%E6%B7%86%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">OB混淆识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86OB%E6%B7%B7%E6%B7%86%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何处理OB混淆？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3OB%E6%B7%B7%E6%B7%86%E5%B7%A5%E5%85%B7%E3%80%81%E7%BD%91%E7%AB%99"><span class="toc-number">2.1.</span> <span class="toc-text">解OB混淆工具、网站</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        JS逆向-OB混淆
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Maododo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-23T06:29:05.000Z" class="dt-published" itemprop="datePublished">2025-12-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JS%E9%80%86%E5%90%91/" rel="tag">JS逆向</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>​	讲OB混淆前，先要讲讲什么是混淆，混淆就是在不影响原本的代码的逻辑情况下对代码的形式和结构进行变动，使代码变得难以阅读和理解，增加代码逆向的难度。</p>
+<p>​	在JavaScript中，OB混淆一般是指的网站 <a target="_blank" rel="noopener" href="https://obfuscator.io/">https://obfuscator.io</a> 提供的代码混淆，这里面提供了一个JavaScript代码混淆工具，可进行多种类型的代码混淆。</p>
+<h2 id="OB混淆识别"><a href="#OB混淆识别" class="headerlink" title="OB混淆识别"></a>OB混淆识别</h2><p>​	OB混淆基本上由四个部分组成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 一个大数组或者有一个大数组的函数 <span class="comment">//用于存储加密的字符串和关键数据</span></span><br><span class="line">- 一个自执行函数                <span class="comment">//数组混淆器，用于打乱数组的顺序</span></span><br><span class="line">- 解密函数										 <span class="comment">//数组访问器</span></span><br><span class="line">- 加密后的函数								  <span class="comment">//原始逻辑</span></span><br></pre></td></tr></table></figure>
+
+<p>​	这是OB混淆代码的基本构成，OB混淆有如下识别特征：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//变量名和函数名混淆 ，形如 _0xab1cd2。由&quot;_0x&quot;开头，后面跟上1-6位数字字母组合。</span></span><br><span class="line"><span class="keyword">var</span> _0xabcd = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x1 = <span class="keyword">function</span>(<span class="params">_0x2, _0x3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0x1234[_0x2 - <span class="number">0x0</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    _0x1[<span class="string">&#x27;XyzAbc&#x27;</span>] = <span class="keyword">function</span>(<span class="params">_0x4, _0x5</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">atob</span>(_0x4);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> _0x1;</span><br><span class="line">&#125;());</span><br><span class="line"><span class="comment">//自执行函数中有push shift	字样</span></span><br></pre></td></tr></table></figure>
+
+<p>​	纸上得来终觉浅，动手试一试才能知道OB混淆前后的改动：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//混淆前的代码</span></span><br><span class="line">!<span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello &quot;</span>, e);</span><br><span class="line">&#125;(<span class="string">&quot;Maododo&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//混淆后的代码</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_0x6cd1</span>(<span class="params">_0x2fe9d3, _0x578f74</span>) &#123;</span><br><span class="line">    _0x2fe9d3 = _0x2fe9d3 - <span class="number">0xd0</span>;</span><br><span class="line">    <span class="keyword">var</span> _0x4838f2 = <span class="title function_">_0x4838</span>();</span><br><span class="line">    <span class="keyword">var</span> _0x6cd151 = _0x4838f2[_0x2fe9d3];</span><br><span class="line">    <span class="keyword">return</span> _0x6cd151;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _0x158908 = _0x6cd1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_0x4838</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0xce77dd = [<span class="string">&#x27;3856821yyeMCS&#x27;</span>, <span class="string">&#x27;5493156EGSXls&#x27;</span>, <span class="string">&#x27;Hello\x20&#x27;</span>, <span class="string">&#x27;Maododo&#x27;</span>, <span class="string">&#x27;346717LaHyhs&#x27;</span>, <span class="string">&#x27;39063eTpdiF&#x27;</span>, <span class="string">&#x27;7841840ZMbEsb&#x27;</span>, <span class="string">&#x27;4810420OBpuHU&#x27;</span>, <span class="string">&#x27;52ZUnfxK&#x27;</span>, <span class="string">&#x27;128SJfwCf&#x27;</span>, <span class="string">&#x27;17811900VqAsEG&#x27;</span>];</span><br><span class="line">    _0x4838 = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0xce77dd;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">_0x4838</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">function</span> (<span class="params">_0x122f90, _0x42566e</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x5937d2 = _0x6cd1, _0x219585 = <span class="title function_">_0x122f90</span>();</span><br><span class="line">    <span class="keyword">while</span> (!![]) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> _0x28d2fe = -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd5</span>)) / <span class="number">0x1</span> * (<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd8</span>)) / <span class="number">0x2</span>) + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd0</span>)) / <span class="number">0x3</span> + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd7</span>)) / <span class="number">0x4</span> + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd6</span>)) / <span class="number">0x5</span> + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd1</span>)) / <span class="number">0x6</span> + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd4</span>)) / <span class="number">0x7</span> * (-<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd9</span>)) / <span class="number">0x8</span>) + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xda</span>)) / <span class="number">0x9</span>;</span><br><span class="line">            <span class="keyword">if</span> (_0x28d2fe === _0x42566e) <span class="keyword">break</span>; <span class="keyword">else</span> _0x219585[<span class="string">&#x27;push&#x27;</span>](_0x219585[<span class="string">&#x27;shift&#x27;</span>]());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (_0x342f06) &#123;</span><br><span class="line">            _0x219585[<span class="string">&#x27;push&#x27;</span>](_0x219585[<span class="string">&#x27;shift&#x27;</span>]());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(_0x4838, <span class="number">0xe533c</span>), </span><br><span class="line"> !<span class="keyword">function</span> (<span class="params">_0x44a1d9</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x355098 = _0x6cd1;</span><br><span class="line">    <span class="variable language_">console</span>[<span class="string">&#x27;log&#x27;</span>](<span class="title function_">_0x355098</span>(<span class="number">0xd2</span>), _0x44a1d9);</span><br><span class="line">&#125;(<span class="title function_">_0x158908</span>(<span class="number">0xd3</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>​	上面的代码就是一个标准的四个模块，让我来给拆解一下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一块是解密函数，可以看到里面直接调用了大数组函数</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_0x6cd1</span>(<span class="params">_0x2fe9d3, _0x578f74</span>) &#123;</span><br><span class="line">    _0x2fe9d3 = _0x2fe9d3 - <span class="number">0xd0</span>;</span><br><span class="line">    <span class="keyword">var</span> _0x4838f2 = <span class="title function_">_0x4838</span>();</span><br><span class="line">    <span class="keyword">var</span> _0x6cd151 = _0x4838f2[_0x2fe9d3];</span><br><span class="line">    <span class="keyword">return</span> _0x6cd151;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> _0x158908 = _0x6cd1;</span><br><span class="line"><span class="comment">// 很明显的大数组，用于存放变量，可以看到我们的常量数据‘Maododo’和‘hello’也在里面</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_0x4838</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0xce77dd = [<span class="string">&#x27;3856821yyeMCS&#x27;</span>, <span class="string">&#x27;5493156EGSXls&#x27;</span>, <span class="string">&#x27;Hello\x20&#x27;</span>, <span class="string">&#x27;Maododo&#x27;</span>, <span class="string">&#x27;346717LaHyhs&#x27;</span>, <span class="string">&#x27;39063eTpdiF&#x27;</span>, <span class="string">&#x27;7841840ZMbEsb&#x27;</span>, <span class="string">&#x27;4810420OBpuHU&#x27;</span>, <span class="string">&#x27;52ZUnfxK&#x27;</span>, <span class="string">&#x27;128SJfwCf&#x27;</span>, <span class="string">&#x27;17811900VqAsEG&#x27;</span>];</span><br><span class="line">    _0x4838 = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0xce77dd;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">_0x4838</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//自执行函数，这就是就是数组混淆器，里面也有push和shift字样</span></span><br><span class="line">(<span class="keyword">function</span> (<span class="params">_0x122f90, _0x42566e</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x5937d2 = _0x6cd1, _0x219585 = <span class="title function_">_0x122f90</span>();</span><br><span class="line">    <span class="keyword">while</span> (!![]) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> _0x28d2fe = -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd5</span>)) / <span class="number">0x1</span> * (<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd8</span>)) / <span class="number">0x2</span>) + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd0</span>)) / <span class="number">0x3</span> + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd7</span>)) / <span class="number">0x4</span> + <span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd6</span>)) / <span class="number">0x5</span> + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd1</span>)) / <span class="number">0x6</span> + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd4</span>)) / <span class="number">0x7</span> * (-<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xd9</span>)) / <span class="number">0x8</span>) + -<span class="built_in">parseInt</span>(<span class="title function_">_0x5937d2</span>(<span class="number">0xda</span>)) / <span class="number">0x9</span>;</span><br><span class="line">            <span class="keyword">if</span> (_0x28d2fe === _0x42566e) <span class="keyword">break</span>; <span class="keyword">else</span> _0x219585[<span class="string">&#x27;push&#x27;</span>](_0x219585[<span class="string">&#x27;shift&#x27;</span>]());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (_0x342f06) &#123;</span><br><span class="line">            _0x219585[<span class="string">&#x27;push&#x27;</span>](_0x219585[<span class="string">&#x27;shift&#x27;</span>]());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;(_0x4838, <span class="number">0xe533c</span>), <span class="comment">//逗号表达式，下面的是第四块，也就是混淆后的执行逻辑，也是很清楚能看到这里，将变量和常量给替换成了&#x27;_0xab1cd2&#x27;格式的变量了</span></span><br><span class="line"> !<span class="keyword">function</span> (<span class="params">_0x44a1d9</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> _0x355098 = _0x6cd1;</span><br><span class="line">    <span class="variable language_">console</span>[<span class="string">&#x27;log&#x27;</span>](<span class="title function_">_0x355098</span>(<span class="number">0xd2</span>), _0x44a1d9);</span><br><span class="line">&#125;(<span class="title function_">_0x158908</span>(<span class="number">0xd3</span>)));</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何处理OB混淆？"><a href="#如何处理OB混淆？" class="headerlink" title="如何处理OB混淆？"></a>如何处理OB混淆？</h2><h3 id="解OB混淆工具、网站"><a href="#解OB混淆工具、网站" class="headerlink" title="解OB混淆工具、网站"></a>解OB混淆工具、网站</h3><p>​	既然有工具能够直接生成OB混淆，那也有工具能直接解OB混淆</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://thanhle.io.vn/de4js/">https://thanhle.io.vn/de4js/</a></p>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/Tsaiboss/decodeObfuscator">https://github.com/Tsaiboss/decodeObfuscator</a></p>
+</blockquote>
+<p>​	这个工具整一下午没整好，有点失望，我后续将补充这部分内容，暂且搁置。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/links/">友链</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OB%E6%B7%B7%E6%B7%86%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">OB混淆识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86OB%E6%B7%B7%E6%B7%86%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何处理OB混淆？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3OB%E6%B7%B7%E6%B7%86%E5%B7%A5%E5%85%B7%E3%80%81%E7%BD%91%E7%AB%99"><span class="toc-number">2.1.</span> <span class="toc-text">解OB混淆工具、网站</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&text=JS逆向-OB混淆"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&is_video=false&description=JS逆向-OB混淆"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS逆向-OB混淆&body=Check out this article: http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&title=JS逆向-OB混淆"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&name=JS逆向-OB混淆&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/&t=JS逆向-OB混淆"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025
+    Maododo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
