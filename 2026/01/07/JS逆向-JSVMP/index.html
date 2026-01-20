@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="​	JSVMP（JavaScript Virtual Machine-Based Protect）JS虚拟机保护，VMP技术就是将原有的代码，转化为专用的字节码，由自写解释器进行解释执行，以此大幅提升逆向分析的成本，同样的，由于代码量的增加，运行效率也会大打折扣。 ​	这里谈一谈一个概念，解释执行，就是将源代码逐行转换为机器码然后再执行。类似于JAVA的JVM，将字节码转换成机器码再执行，但是在J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS逆向-JSVMP">
+<meta property="og:url" content="http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/index.html">
+<meta property="og:site_name" content="Maododo&#39;s Blog">
+<meta property="og:description" content="​	JSVMP（JavaScript Virtual Machine-Based Protect）JS虚拟机保护，VMP技术就是将原有的代码，转化为专用的字节码，由自写解释器进行解释执行，以此大幅提升逆向分析的成本，同样的，由于代码量的增加，运行效率也会大打折扣。 ​	这里谈一谈一个概念，解释执行，就是将源代码逐行转换为机器码然后再执行。类似于JAVA的JVM，将字节码转换成机器码再执行，但是在J">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/017.png">
+<meta property="og:image" content="http://example.com/images/018.png">
+<meta property="og:image" content="http://example.com/images/019.png">
+<meta property="og:image" content="http://example.com/images/020.png">
+<meta property="og:image" content="http://example.com/images/021.png">
+<meta property="og:image" content="http://example.com/images/022.png">
+<meta property="og:image" content="http://example.com/images/023.png">
+<meta property="og:image" content="http://example.com/images/024.png">
+<meta property="og:image" content="http://example.com/images/025.png">
+<meta property="article:published_time" content="2026-01-07T03:29:48.000Z">
+<meta property="article:modified_time" content="2026-01-20T12:11:59.927Z">
+<meta property="article:author" content="Maododo">
+<meta property="article:tag" content="JS逆向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/017.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>JS逆向-JSVMP</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&text=JS逆向-JSVMP"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&is_video=false&description=JS逆向-JSVMP"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS逆向-JSVMP&body=Check out this article: http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&name=JS逆向-JSVMP&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&t=JS逆向-JSVMP"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSVMP%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">JSVMP识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86JSVMP"><span class="toc-number">2.</span> <span class="toc-text">如何处理JSVMP</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        JS逆向-JSVMP
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Maododo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-01-07T03:29:48.000Z" class="dt-published" itemprop="datePublished">2026-01-07</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/JS%E9%80%86%E5%90%91/" rel="tag">JS逆向</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>​	JSVMP（JavaScript Virtual Machine-Based Protect）JS虚拟机保护，VMP技术就是将原有的代码，转化为专用的字节码，由自写解释器进行解释执行，以此大幅提升逆向分析的成本，同样的，由于代码量的增加，运行效率也会大打折扣。</p>
+<p>​	这里谈一谈一个概念，解释执行，就是将源代码逐行转换为机器码然后再执行。类似于JAVA的JVM，将字节码转换成机器码再执行，但是在JSVMP中，这里的的机器码就不再是可供CPU执行的x86&#x2F;ARM指令，而是我们自定义的虚拟指令序列，实质上还是JS代码。</p>
+<p>​	之前在windows软件、安卓native层中也遇到过VMP加壳，原理完全相同，比较亲切，但是在保护的对象和实际技术应用上，有着很大的区别，这里就不细谈了，等后续博客更新到安卓逆向或者windows 逆向，可能会拿在一起详细讲讲（？？哪来的鸽子叫）。</p>
+<h2 id="JSVMP识别"><a href="#JSVMP识别" class="headerlink" title="JSVMP识别"></a>JSVMP识别</h2><p>​	JSVMP加密技术：原理、实现与攻防策略解析</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://comate.baidu.com/zh/page/hde0g2brg2j">https://comate.baidu.com/zh/page/hde0g2brg2j</a> </p>
+</blockquote>
+<p>​	这篇文章讲的就很不错了，聊个题外话，我一直认为，不论是写技术博客，还是分享CTF的WP等等分享，都需要写一点自己的内容，哪怕你看完别人的文章，按照别人的思路，自己重新复述一遍，那么这篇文章就是有价值的。不要为了完成一篇文章，去写一些自己不清楚的东西，复制粘贴更甚，不要这么做，要真真正正留下来点东西，最不重要的就是毫无意义的文字和浪费掉的时间。</p>
+<p>​	接下来我将写一个简单的JSVMP，来演示一下他的执行流程，就最简单的，二数加法运算。实现之前，让我来讲一讲大体思路：</p>
+<ul>
+<li>将二数加法操作拆解成三条指令，加载数到栈LOAD、栈上二数相加ADD、和值返回RET，建立指二数加法指令序列</li>
+<li>创建指令序列解释器</li>
+</ul>
+<p>​	先准备一下指令序列，指令序列按照一定的规则进行保存，可以是特定的编码，这里规定操作码和参数都以join(“&#x2F;“)进行拼接。先生成一个指令序列以便后续解释器使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> instructions = [</span><br><span class="line">    &#123;op : <span class="string">&quot;LOAD&quot;</span>, arg : <span class="string">&quot;a&quot;</span>&#125;,</span><br><span class="line">    &#123;op : <span class="string">&quot;LOAD&quot;</span>, arg : <span class="string">&quot;b&quot;</span>&#125;,</span><br><span class="line">    &#123;op : <span class="string">&quot;ADD&quot;</span>&#125;,</span><br><span class="line">    &#123;op : <span class="string">&quot;RET&quot;</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">//上面就是我们加法所需要的指令，但现在还是不具有混淆的模样，直接观察就能看出我们的指令序列是一个堆栈操作的加法运算，</span></span><br><span class="line"><span class="comment">// 再对我们的操作码进行一次混淆</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> opcode = &#123;</span><br><span class="line">    <span class="variable constant_">LOAD</span> : <span class="string">&quot;_0x01d2c1&quot;</span>,</span><br><span class="line">    <span class="variable constant_">ADD</span>  : <span class="string">&quot;_0x01d2c2&quot;</span>,</span><br><span class="line">    <span class="attr">RET</span>:<span class="string">&quot;_0x01d2c3&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//通过这样的一个映射，将指令序列进行混淆</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">compileByInstruction</span>(<span class="params">instructions</span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> bytecode = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> instruction <span class="keyword">of</span> instructions)&#123;</span><br><span class="line">        bytecode.<span class="title function_">push</span>(opcode[instruction.<span class="property">op</span>])</span><br><span class="line">        <span class="keyword">if</span>(instruction.<span class="property">arg</span> !== <span class="literal">undefined</span>)&#123;</span><br><span class="line">            bytecode.<span class="title function_">push</span>(instruction.<span class="property">arg</span>.<span class="title function_">charCodeAt</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> bytecode.<span class="title function_">join</span>(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//将操作码进行混淆，并且将arg进行ASCCII码转换，使用斜杠进行拼接</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">compileByInstruction</span>(instructions));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(base) ➜  node demo.js </span><br><span class="line">_0x01d2c1/97/_0x01d2c1/98/_0x01d2c2/_0x01d2c3</span><br></pre></td></tr></table></figure>
+
+<p>​	这样一个混淆后的ADD指令集就生成好了，接下来实现一下最关键的指令集解析部分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建堆栈和指令集，指令集加一个混淆，通过this.process进行动态加载，这里先置空，js中使用list来模拟stack非常的方便</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">JSVMP</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">stack</span> = [];</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">opcode</span> = &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在execute外定义ADD指令的逻辑</span></span><br><span class="line"><span class="variable constant_">JSVMP</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">add</span> = <span class="keyword">function</span>(<span class="params">_0xa1b2c1, _0x1ab2c2</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> _0x1ab2c2 + _0xa1b2c1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//指令集加载</span></span><br><span class="line"><span class="variable constant_">JSVMP</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">process</span> = <span class="keyword">function</span>(<span class="params">$opcode</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> opcodeArry = $opcode.<span class="title function_">split</span>(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; opcodeArry.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        $key = opcodeArry[i];</span><br><span class="line">        i++;</span><br><span class="line">        $value = opcodeArry[i];</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">opcode</span>[$key] = $value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//JSVMP核心执行入口，指令序列写死了，指令集也写在这里面</span></span><br><span class="line"><span class="variable constant_">JSVMP</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">execute</span> = <span class="keyword">function</span>(<span class="params">content</span>)&#123;</span><br><span class="line">    <span class="keyword">let</span> instructions = <span class="string">&quot;_0x01d2c1/97/_0x01d2c1/98/_0x01d2c2/_0x01d2c3&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> instructArry = instructions.<span class="title function_">split</span>(<span class="string">&quot;/&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> $opcode = <span class="string">&quot;LOAD/_0x01d2c1/ADD/_0x01d2c2/RET/_0x01d2c3&quot;</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">process</span>($opcode);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; instructArry.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        <span class="keyword">switch</span> (instructArry[i])&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="variable language_">this</span>.<span class="property">opcode</span>.<span class="property">LOAD</span>:</span><br><span class="line">                i++;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">stack</span>.<span class="title function_">push</span>(content[<span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(instructArry[i])]);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="variable language_">this</span>.<span class="property">opcode</span>.<span class="property">ADD</span>:</span><br><span class="line">                <span class="keyword">let</span> arg1 = <span class="variable language_">this</span>.<span class="property">stack</span>.<span class="title function_">pop</span>();</span><br><span class="line">                <span class="keyword">let</span> arg2 = <span class="variable language_">this</span>.<span class="property">stack</span>.<span class="title function_">pop</span>();</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">stack</span>.<span class="title function_">push</span>(<span class="variable language_">this</span>.<span class="title function_">add</span>(arg1, arg2));</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="variable language_">this</span>.<span class="property">opcode</span>.<span class="property">RET</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">stack</span>.<span class="title function_">pop</span>()</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实例化一下，传入参数，打印结果</span></span><br><span class="line"><span class="keyword">var</span> jsvmp = <span class="keyword">new</span> <span class="title function_">JSVMP</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(jsvmp.<span class="title function_">execute</span>(&#123;<span class="attr">a</span>:<span class="number">3</span>, <span class="attr">b</span>:<span class="number">2</span>&#125;));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(base) ➜  jsvmp node demo.js</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+
+<p>​	结果是对的，这个简单的ADD VMP就已经实现了，自定义了指令集、解释器，还具备了一定的混淆。</p>
+<p>​	JSVMP的特征就是：</p>
+<blockquote>
+<p>存在以上结构<br>存在JSVMP字样</p>
+<p>入参传入很长的一串字符串</p>
+</blockquote>
+<h2 id="如何处理JSVMP"><a href="#如何处理JSVMP" class="headerlink" title="如何处理JSVMP"></a>如何处理JSVMP</h2><p>​	根据前人的经验，JSVMP大概有三种方法进行处理，第一种就是直接补环境，第二种就是纯算还原，第三种就是使用RPC进行远程调用。补环境比较方便，直接来像之前那样来补环境吧。</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.toutiao.com/">https://www.toutiao.com/</a></p>
+</blockquote>
+<p><img src="/../../images/017.png" alt="今日头条搜索"></p>
+<p>​	拿一个字节的网站来看看他们是怎么做的JSVMP，关注到，这里有一个_signature参数，来看一下这个是怎么生成的，打断点调试一下。</p>
+<p><img src="/../../images/018.png" alt="signature生成"></p>
+<p>​	调试到，是有一个windows.byted_acrawler.sign函数用来生成这个signature值，走进去看一看有什么东西。</p>
+<p><img src="/../../images/019.png" alt="JSVMP代码"></p>
+<p>​	很明显，这里的signature生成逻辑已经被JSVMP混淆隐藏了，要在本地运行这个sign函数，可以将整个JSVMP代码全部扣下来，然后进行补环境。根据这个文件名可以发现，这个acrawler.js文件，是存在反爬的，可能会有环境检测，根据经验，进行补环境的过程中需要做一些特别的处理。</p>
+<p>​	浏览器补环境，在node环境中要特别注意一下两个东西，一个是exports，一个是module，这两个在浏览器环境中是undefined，但是在node环境中不是，这里反爬会在这里区别一下环境，防止本地运行，需要手动调整一下代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;undefined&quot;</span> != <span class="keyword">typeof</span> <span class="built_in">exports</span> ? <span class="built_in">exports</span> : <span class="keyword">void</span> <span class="number">0</span>, <span class="string">&quot;undefined&quot;</span> != <span class="keyword">typeof</span> <span class="variable language_">module</span> ? <span class="variable language_">module</span> : <span class="keyword">void</span> <span class="number">0</span>,</span><br><span class="line">  <span class="comment">//这里的三目运算符可以改成</span></span><br><span class="line">  <span class="keyword">void</span> <span class="number">0</span>, <span class="keyword">void</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../images/020.png" alt="length处理"></p>
+<p>​	补环境中经常会遇到这样的length缺失，这就需要找对应上一步的A参数是什么，在对应的地方下一个log断点，和一个条件断点，查看length上一步是做了什么操作，然后再通过条件断点查看需要补什么环境。</p>
+<p><img src="/../../images/021.png" alt="断点调试"></p>
+<p>​	然后使用调试，查看上一步的参数是protocol</p>
+<p><img src="/../../images/022.png" alt="protocol"></p>
+<p>​	重新设置条件断点 A&#x3D;&#x3D;”protocol”，查看需要补的参数，通过断点发现，这个protocol是location里面的东西，直接从浏览器中拿就好</p>
+<p><img src="/../../images/023.png" alt="查看protocol归属"></p>
+<p>​	node环境中又出现了错误，这里可以打印出所有的A参数，查看哪些环境是我们忽略掉的，导致位数不一样，浏览器中的signature参数的位数是147，这里是47，显然补环境还没有结束</p>
+<p><img src="/../../images/024.png" alt="localsessionStorage"></p>
+<p>​	经过一步一步的S、R、A参数分析，发现缺少了localStorage和sessionStorage参数，以及对应的操作方法。这里遇到的问题比较多，有一段时间，我以为是我node版本的问题，结果重新走了一遍，通了。总之，要耐心，一步一步来，缺啥补啥。<img src="/../../images/025.png" alt="依旧补环境"></p>
+<p>​	扔一个补的环境代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="variable language_">document</span> = &#123;</span><br><span class="line">    <span class="attr">referrer</span>: <span class="string">&quot;https://www.toutiao.com/&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="variable language_">window</span> = globalThis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> location = &#123;</span><br><span class="line">    href : <span class="string">&quot;https://www.toutiao.com/?wid=1657855126033&quot;</span>,</span><br><span class="line">    <span class="attr">protocol</span>: <span class="string">&quot;https:&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">localStorage</span> = &#123;</span><br><span class="line">    <span class="string">&quot;__pwa_push_show_count&quot;</span>: <span class="string">&quot;3&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__tea_cache_first_24&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__click_close_download_panel_ts__&quot;</span>: <span class="string">&quot;1768906192550&quot;</span>,</span><br><span class="line">    <span class="string">&quot;tt_scid&quot;</span>: <span class="string">&quot;X-K2RhNMYuvyG8ixJ2bcVnTvdOwlrpi8bSZuvi3OMJx6jKSGDtiT1qvXoJcGL0xq80bd&quot;</span>,</span><br><span class="line">    <span class="string">&quot;xmst&quot;</span>: <span class="string">&quot;-KuT0_WjztH_2l4g7SBmGR2cLG5uqneDAX1dgWBCATcTCTgf_J5cZwdKwzqb4t-5-1PATg09gUdMUgCu0Kr4KVdZxhMudDDuIUwQi2xyy9MPIjN6IX5Za5vwiMU4n7bl&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__tea_cache_tokens_24&quot;</span>: <span class="string">&quot;&#123;\&quot;web_id\&quot;:\&quot;7592452048437610022\&quot;,\&quot;user_unique_id\&quot;:\&quot;7592452048437610022\&quot;,\&quot;timestamp\&quot;:1768901790381,\&quot;_type_\&quot;:\&quot;default\&quot;&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__pwa_push_show_time&quot;</span>: <span class="string">&quot;1768550589920&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_byted_param_sw&quot;</span>: <span class="string">&quot;uOv3hoKTqsvlugnaOtw=&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__tea_cache_refer_24&quot;</span>: <span class="string">&quot;&#123;\&quot;refer_key\&quot;:\&quot;\&quot;,\&quot;refer_title\&quot;:\&quot;今日头条\&quot;,\&quot;refer_manual_key\&quot;:\&quot;\&quot;,\&quot;routeChange\&quot;:false&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;web_runtime_security_uid&quot;</span>: <span class="string">&quot;f413de2d-2d08-41db-a6c6-30c5810374de&quot;</span>,</span><br><span class="line">    <span class="string">&quot;__is_visited_home&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;SLARDARtoutiao_web_pc&quot;</span>: <span class="string">&quot;JTdCJTIydXNlcklkJTIyOiUyMjc1OTI0NTIwNDg0Mzc2MTAwMjIlMjIsJTIyZGV2aWNlSWQlMjI6JTIyNzU5MjQ1MjA0ODQzNzYxMDAyMiUyMiwlMjJleHBpcmVzJTIyOjE3NzY2Nzc3OTE4MDMlN0Q=&quot;</span>,</span><br><span class="line">    <span class="string">&quot;ttcid&quot;</span>: <span class="string">&quot;846493ba57fa4d43815d5de2d6d1b8ee20&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">sessionStorage</span> = &#123;</span><br><span class="line">    <span class="string">&quot;__tea_session_id_24&quot;</span>: <span class="string">&quot;&#123;\&quot;sessionId\&quot;:\&quot;47e8012b-f317-47ff-96d7-81eaedf56e20\&quot;,\&quot;timestamp\&quot;:1768906615958&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_tea_cache_duration&quot;</span>: <span class="string">&quot;&#123;\&quot;duration\&quot;:11491611,\&quot;page_title\&quot;:\&quot;今日头条\&quot;&#125;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;_byted_param_sw&quot;</span>: <span class="string">&quot;uOv3hoKTqsvlugnaOtw=&quot;</span>,</span><br><span class="line">    <span class="string">&quot;/&quot;</span>: <span class="string">&quot;1&quot;</span>,</span><br><span class="line">    <span class="string">&quot;tt_scid&quot;</span>: <span class="string">&quot;X-K2RhNMYuvyG8ixJ2bcVnTvdOwlrpi8bSZuvi3OMJx6jKSGDtiT1qvXoJcGL0xq80bd&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">sessionStorage</span>.<span class="property">getItem</span> = <span class="keyword">function</span> (<span class="params">arg</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">sessionStorage</span>[arg];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">localStorage</span>.<span class="property">getItem</span> = <span class="keyword">function</span> (<span class="params">arg</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">localStorage</span>[arg];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>​	这里有很多补环境用的Proxy自吐脚本，扔一个，调试起来比较方便</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getEnv</span>(<span class="params">proxy_array</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;proxy_array.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        handler = <span class="string">`&#123;</span></span><br><span class="line"><span class="string">            get: function(target, property, receiver) &#123;</span></span><br><span class="line"><span class="string">                   console.log(&#x27;方法：get&#x27;,&#x27;    对象：<span class="subst">$&#123;proxy_array[i]&#125;</span>&#x27;,&#x27;    属性：&#x27;,property,&#x27;    属性类型：&#x27;,typeof property,&#x27;    属性值类型：&#x27;,typeof target[property]);</span></span><br><span class="line"><span class="string">                   return target[property];</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            set: function(target, property, value, receiver)&#123;</span></span><br><span class="line"><span class="string">                    console.log(&#x27;方法：set&#x27;,&#x27;    对象：<span class="subst">$&#123;proxy_array[i]&#125;</span>&#x27;,&#x27;    属性：&#x27;,property,&#x27;    属性类型：&#x27;,typeof property,&#x27;    属性值类型：&#x27;,typeof target[property]);</span></span><br><span class="line"><span class="string">                    return Reflect.set(...arguments);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;`</span>;</span><br><span class="line">        <span class="built_in">eval</span>(<span class="string">`</span></span><br><span class="line"><span class="string">            try&#123;</span></span><br><span class="line"><span class="string">                <span class="subst">$&#123;proxy_array[i]&#125;</span>;</span></span><br><span class="line"><span class="string">                <span class="subst">$&#123;proxy_array[i]&#125;</span> = new Proxy(<span class="subst">$&#123;proxy_array[i]&#125;</span>,<span class="subst">$&#123;handler&#125;</span>);</span></span><br><span class="line"><span class="string">            &#125;catch(e)&#123;</span></span><br><span class="line"><span class="string">                <span class="subst">$&#123;proxy_array[i]&#125;</span>=&#123;&#125;;</span></span><br><span class="line"><span class="string">                <span class="subst">$&#123;proxy_array[i]&#125;</span> = new Proxy(<span class="subst">$&#123;proxy_array[i]&#125;</span>,<span class="subst">$&#123;handler&#125;</span>);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        `</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">proxy_array = [<span class="string">&#x27;window&#x27;</span>,<span class="string">&#x27;document&#x27;</span>,<span class="string">&#x27;locaion&#x27;</span>, <span class="string">&#x27;navigator&#x27;</span>, <span class="string">&#x27;history&#x27;</span>, <span class="string">&#x27;screen&#x27;</span>, <span class="string">&#x27;history&#x27;</span>]</span><br><span class="line"><span class="title function_">getEnv</span>(proxy_array);</span><br><span class="line"></span><br><span class="line"><span class="comment">//偷自 https://www.cnblogs.com/a438842265/p/18332426，感谢大佬分享</span></span><br></pre></td></tr></table></figure>
+
+<p>​	至于纯算嘛，扔个链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/YAL4iT3ECQeK7vZRsLRFaA">https://mp.weixin.qq.com/s/YAL4iT3ECQeK7vZRsLRFaA</a> ，日后研究（！？？哪来的鸽子叫）</p>
+<p>​	还得扔点啥，哦，RPC，自个搜搜Chrome RPC 或者 JsRPC怎么用吧。</p>
+<p>​	<a target="_blank" rel="noopener" href="https://github.com/jxhczhl/JsRpc">https://github.com/jxhczhl/JsRpc</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/links/">友链</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSVMP%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">JSVMP识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86JSVMP"><span class="toc-number">2.</span> <span class="toc-text">如何处理JSVMP</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&text=JS逆向-JSVMP"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&is_video=false&description=JS逆向-JSVMP"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JS逆向-JSVMP&body=Check out this article: http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&title=JS逆向-JSVMP"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&name=JS逆向-JSVMP&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/&t=JS逆向-JSVMP"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025-2026
+    Maododo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
