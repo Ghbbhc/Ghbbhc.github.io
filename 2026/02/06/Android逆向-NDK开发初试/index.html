@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="​	 何为NDK​	安卓开发分SDK和NDK，SDK运行在ART&#x2F;Dalvik虚拟机中，NDK运行在原生系统中，虚拟机执行效率不如原生效率高，要谈两者的区别，还是直接放一个SDK调用NDK的图，通过实际的调用流程来了解一下吧。 	Zygote 是安卓系统启动时就会创建这么一个进程，它是所有安卓应用的父进程。Zygote在启动时，会加载系统核心框架库（如framework.jar，包含Ac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向-NDK开发初试">
+<meta property="og:url" content="http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/index.html">
+<meta property="og:site_name" content="Maododo&#39;s Blog">
+<meta property="og:description" content="​	 何为NDK​	安卓开发分SDK和NDK，SDK运行在ART&#x2F;Dalvik虚拟机中，NDK运行在原生系统中，虚拟机执行效率不如原生效率高，要谈两者的区别，还是直接放一个SDK调用NDK的图，通过实际的调用流程来了解一下吧。 	Zygote 是安卓系统启动时就会创建这么一个进程，它是所有安卓应用的父进程。Zygote在启动时，会加载系统核心框架库（如framework.jar，包含Ac">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/026.png">
+<meta property="article:published_time" content="2026-02-06T09:35:57.000Z">
+<meta property="article:modified_time" content="2026-02-06T09:35:57.141Z">
+<meta property="article:author" content="Maododo">
+<meta property="article:tag" content="Android逆向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/026.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Android逆向-NDK开发初试</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&text=Android逆向-NDK开发初试"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&is_video=false&description=Android逆向-NDK开发初试"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android逆向-NDK开发初试&body=Check out this article: http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&name=Android逆向-NDK开发初试&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&t=Android逆向-NDK开发初试"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%95%E4%B8%BANDK"><span class="toc-number">1.</span> <span class="toc-text">何为NDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">NDK开发初试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-JNI-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%AF%B9%E7%85%A7%E8%A1%A8-Java-Primitive-Types"><span class="toc-number">2.1.</span> <span class="toc-text">1. JNI 基本类型对照表 (Java Primitive Types)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-JNI-%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%AF%B9%E7%85%A7%E8%A1%A8-Java-Reference-Types"><span class="toc-number">2.2.</span> <span class="toc-text">2. JNI 引用类型对照表 (Java Reference Types)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-JNI-%E7%8E%AF%E5%A2%83%E4%B8%8E-ID-%E7%B1%BB%E5%9E%8B-JNI-Special-Types"><span class="toc-number">2.3.</span> <span class="toc-text">3. JNI 环境与 ID 类型 (JNI Special Types)</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Android逆向-NDK开发初试
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Maododo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-02-06T09:35:57.000Z" class="dt-published" itemprop="datePublished">2026-02-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Android%E9%80%86%E5%90%91/" rel="tag">Android逆向</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>​	</p>
+<h2 id="何为NDK"><a href="#何为NDK" class="headerlink" title="何为NDK"></a>何为NDK</h2><p>​	安卓开发分SDK和NDK，SDK运行在ART&#x2F;Dalvik虚拟机中，NDK运行在原生系统中，虚拟机执行效率不如原生效率高，要谈两者的区别，还是直接放一个SDK调用NDK的图，通过实际的调用流程来了解一下吧。</p>
+<p><img src="/../../images/026.png" alt="SDK调用NDK">	Zygote 是安卓系统启动时就会创建这么一个进程，它是所有安卓应用的父进程。Zygote在启动时，会加载系统核心框架库（如framework.jar，包含Activity、Service等核心类的实现)，每启动一个应用，Zygote就会通过Fork自身来生成新进程，前面那些预加载的资源就会被所有子进程共享，避免重复加载。</p>
+<p>​	所以Zygote是创建ART&#x2F;Dalvik虚拟机的进程，它会完成虚拟机的初始化，确保fork出来的应用进程都继承一个准备就绪的、标准化的虚拟机环境。应用启动后，就会在这个虚拟机中加载APK中的Dex码，进行初始化Application，然后就是四大组件的初始化。</p>
+<p>​	那图中的JNI又是个啥呢，在安卓中，JNI 是指 Java 原生接口，是一个规范。它定义了 Android 从受管理代码（使用 Java 或 Kotlin 编程语言编写）编译的字节码与原生代码（使用 C&#x2F;C++ 编写）互动的方式。SDK调用NDK，是通过JNI与NDK进行调用映射和数据类型转换等操作，完成JAVA层到NATIVE层的通信。</p>
+<p>​	话说回来，NDK就是为了高运行效率、跨平台复用、底层逻辑操作，按照JNI规范在原生空间中运行编译C\C++代码的Android原生开发工具集。</p>
+<h2 id="NDK开发初试"><a href="#NDK开发初试" class="headerlink" title="NDK开发初试"></a>NDK开发初试</h2><p>​	扔一点命令</p>
+<figure class="highlight plaintext"><figcaption><span>shell</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//查看当前界面Activity</span><br><span class="line">adb shell dumpsys window | grep mCurrentFocus </span><br><span class="line">//查看应用完整包名</span><br><span class="line">adb shell pm list package</span><br><span class="line">//列出所有应用包，并对应完整路径</span><br><span class="line">adb shell pm list package -f</span><br><span class="line">//显示系统详细信息</span><br><span class="line">adb shell uname -a</span><br></pre></td></tr></table></figure>
+
+<p>​	通过Android Studio创建一个Native开发项目，在java层中写进行声明</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">native</span> String <span class="title function_">mdString</span><span class="params">(String string)</span>;</span><br><span class="line"><span class="comment">//如果使用static进行声明，那么native层中的this对象要使用jclass类型，反之使用jobject类型</span></span><br><span class="line"><span class="comment">//并且，访问其对象也应使用对应的方法</span></span><br><span class="line"><span class="comment">//非 static 方法（jobject）：可通过env-&gt;GetObjectField/CallObjectMethod访问实例成员；</span></span><br><span class="line"><span class="comment">//static 方法（jclass）：需通过env-&gt;GetStaticObjectField/CallStaticObjectMethod访问静态成员。</span></span><br></pre></td></tr></table></figure>
+
+<p>​	对应的，native层的定义（C版）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">JNIEXPORT jstring JNICALL</span></span><br><span class="line"><span class="function"><span class="title">Java_com_example_myndk_MainActivity_stringFromJNI</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        JNIEnv* env,        <span class="comment">// JNI环境指针，提供JNI操作函数</span></span></span></span><br><span class="line"><span class="params"><span class="function">        jobject thiz)</span> </span>&#123;     <span class="comment">// 对应Java中的this对象</span></span><br><span class="line">    <span class="type">const</span> <span class="type">char</span>* hello = <span class="string">&quot;Hello from C Native Code!&quot;</span>;</span><br><span class="line">    <span class="comment">// 把C字符串转为Java的String对象</span></span><br><span class="line">    <span class="keyword">return</span> (*env)-&gt;<span class="built_in">NewStringUTF</span>(env, hello);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​	其中，如果是已CPP进行native层的编写，就需要在最开始进行一个name mangling，因为CPP可能会进行重载，抽空去研究一下编译区别（咕咕咕）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> JNIEXPORT jstring JNICALL</span><br><span class="line"><span class="title function_">Java_com_example_myndk_MainActivity_stringFromJNI</span><span class="params">(</span></span><br><span class="line"><span class="params">        JNIEnv* env,</span></span><br><span class="line"><span class="params">        jobject thiz)</span> &#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> hello = <span class="string">&quot;Hello from C++ Native Code!&quot;</span>;</span><br><span class="line">    <span class="comment">// C++中env直接调用方法，无需(*env)-&gt;</span></span><br><span class="line">    <span class="keyword">return</span> env-&gt;NewStringUTF(hello.c_str());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-JNI-基本类型对照表-Java-Primitive-Types"><a href="#1-JNI-基本类型对照表-Java-Primitive-Types" class="headerlink" title="1. JNI 基本类型对照表 (Java Primitive Types)"></a>1. JNI 基本类型对照表 (Java Primitive Types)</h3><table>
+<thead>
+<tr>
+<th align="left">Java 基本类型</th>
+<th align="left">JNI 对应类型</th>
+<th align="left">C&#x2F;C++ 等效类型</th>
+<th align="left">占用字节</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">boolean</td>
+<td align="left">jboolean</td>
+<td align="left">unsigned char</td>
+<td align="left">1</td>
+<td align="left">0&#x3D;false，非0&#x3D;true</td>
+</tr>
+<tr>
+<td align="left">byte</td>
+<td align="left">jbyte</td>
+<td align="left">signed char</td>
+<td align="left">1</td>
+<td align="left">8位有符号整数</td>
+</tr>
+<tr>
+<td align="left">char</td>
+<td align="left">jchar</td>
+<td align="left">unsigned short</td>
+<td align="left">2</td>
+<td align="left">UTF-16编码的字符</td>
+</tr>
+<tr>
+<td align="left">short</td>
+<td align="left">jshort</td>
+<td align="left">short</td>
+<td align="left">2</td>
+<td align="left">16位有符号整数</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">jint</td>
+<td align="left">int</td>
+<td align="left">4</td>
+<td align="left">32位有符号整数</td>
+</tr>
+<tr>
+<td align="left">long</td>
+<td align="left">jlong</td>
+<td align="left">long long &#x2F; int64_t</td>
+<td align="left">8</td>
+<td align="left">64位有符号整数</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td align="left">jfloat</td>
+<td align="left">float</td>
+<td align="left">4</td>
+<td align="left">32位浮点数</td>
+</tr>
+<tr>
+<td align="left">double</td>
+<td align="left">jdouble</td>
+<td align="left">double</td>
+<td align="left">8</td>
+<td align="left">64位浮点数</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="2-JNI-引用类型对照表-Java-Reference-Types"><a href="#2-JNI-引用类型对照表-Java-Reference-Types" class="headerlink" title="2. JNI 引用类型对照表 (Java Reference Types)"></a>2. JNI 引用类型对照表 (Java Reference Types)</h3><table>
+<thead>
+<tr>
+<th align="left">Java 引用类型</th>
+<th align="left">JNI 对应类型</th>
+<th align="left">说明&#x2F;使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Object</td>
+<td align="left">jobject</td>
+<td align="left">所有引用类型的父类</td>
+</tr>
+<tr>
+<td align="left">Class</td>
+<td align="left">jclass</td>
+<td align="left">对应 Java 的 Class 对象 (用于静态方法&#x2F;反射)</td>
+</tr>
+<tr>
+<td align="left">String</td>
+<td align="left">jstring</td>
+<td align="left">对应 Java 的 String</td>
+</tr>
+<tr>
+<td align="left">Throwable</td>
+<td align="left">jthrowable</td>
+<td align="left">对应 Java 的异常类</td>
+</tr>
+<tr>
+<td align="left">Object[]</td>
+<td align="left">jobjectArray</td>
+<td align="left">对象数组 (如 String[], User[])</td>
+</tr>
+<tr>
+<td align="left">boolean[]</td>
+<td align="left">jbooleanArray</td>
+<td align="left">布尔数组</td>
+</tr>
+<tr>
+<td align="left">byte[]</td>
+<td align="left">jbyteArray</td>
+<td align="left">字节数组 (常用作二进制数据传输)</td>
+</tr>
+<tr>
+<td align="left">char[]</td>
+<td align="left">jcharArray</td>
+<td align="left">字符数组</td>
+</tr>
+<tr>
+<td align="left">short[]</td>
+<td align="left">jshortArray</td>
+<td align="left">短整型数组</td>
+</tr>
+<tr>
+<td align="left">int[]</td>
+<td align="left">jintArray</td>
+<td align="left">整型数组</td>
+</tr>
+<tr>
+<td align="left">long[]</td>
+<td align="left">jlongArray</td>
+<td align="left">长整型数组</td>
+</tr>
+<tr>
+<td align="left">float[]</td>
+<td align="left">jfloatArray</td>
+<td align="left">浮点数组</td>
+</tr>
+<tr>
+<td align="left">double[]</td>
+<td align="left">jdoubleArray</td>
+<td align="left">双精度浮点数组</td>
+</tr>
+<tr>
+<td align="left">自定义类&#x2F;接口</td>
+<td align="left">jobject</td>
+<td align="left">统统映射为 jobject</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="3-JNI-环境与-ID-类型-JNI-Special-Types"><a href="#3-JNI-环境与-ID-类型-JNI-Special-Types" class="headerlink" title="3. JNI 环境与 ID 类型 (JNI Special Types)"></a>3. JNI 环境与 ID 类型 (JNI Special Types)</h3><table>
+<thead>
+<tr>
+<th align="left">用途</th>
+<th align="left">JNI 类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">JNI 环境指针</td>
+<td align="left">JNIEnv*</td>
+<td align="left">核心接口指针 (C使用 <code>(*env)-&gt;</code>, C++使用 <code>env-&gt;</code>)</td>
+</tr>
+<tr>
+<td align="left">虚拟机指针</td>
+<td align="left">JavaVM*</td>
+<td align="left">跨线程获取 JNIEnv 时使用</td>
+</tr>
+<tr>
+<td align="left">字段 ID</td>
+<td align="left">jfieldID</td>
+<td align="left">访问 Java 属性的凭据</td>
+</tr>
+<tr>
+<td align="left">方法 ID</td>
+<td align="left">jmethodID</td>
+<td align="left">调用 Java 方法的凭据</td>
+</tr>
+</tbody></table>
+<p>​	直接抄仨对照表扔这，用到的时候再看。</p>
+<p>​	写完对应的代码，再扔一个命令行编译的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./gradlew assembleDebug</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">编译好后，通过 find . -name <span class="string">&quot;*.apk&quot;</span> 找到对应的debug文件</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/links/">友链</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%95%E4%B8%BANDK"><span class="toc-number">1.</span> <span class="toc-text">何为NDK</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95"><span class="toc-number">2.</span> <span class="toc-text">NDK开发初试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-JNI-%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%AF%B9%E7%85%A7%E8%A1%A8-Java-Primitive-Types"><span class="toc-number">2.1.</span> <span class="toc-text">1. JNI 基本类型对照表 (Java Primitive Types)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-JNI-%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B%E5%AF%B9%E7%85%A7%E8%A1%A8-Java-Reference-Types"><span class="toc-number">2.2.</span> <span class="toc-text">2. JNI 引用类型对照表 (Java Reference Types)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-JNI-%E7%8E%AF%E5%A2%83%E4%B8%8E-ID-%E7%B1%BB%E5%9E%8B-JNI-Special-Types"><span class="toc-number">2.3.</span> <span class="toc-text">3. JNI 环境与 ID 类型 (JNI Special Types)</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&text=Android逆向-NDK开发初试"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&is_video=false&description=Android逆向-NDK开发初试"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android逆向-NDK开发初试&body=Check out this article: http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&title=Android逆向-NDK开发初试"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&name=Android逆向-NDK开发初试&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/&t=Android逆向-NDK开发初试"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025-2026
+    Maododo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
