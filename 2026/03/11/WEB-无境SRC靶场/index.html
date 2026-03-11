@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB-无境SRC靶场">
+<meta property="og:url" content="http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/index.html">
+<meta property="og:site_name" content="Maododo&#39;s Blog">
+<meta property="og:description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/030.png">
+<meta property="og:image" content="http://example.com/images/031.png">
+<meta property="og:image" content="http://example.com/images/032.png">
+<meta property="og:image" content="http://example.com/images/033.png">
+<meta property="og:image" content="http://example.com/images/034.png">
+<meta property="og:image" content="http://example.com/images/035.png">
+<meta property="og:image" content="http://example.com/images/036.png">
+<meta property="og:image" content="http://example.com/images/037.png">
+<meta property="og:image" content="http://example.com/images/038.png">
+<meta property="og:image" content="http://example.com/images/039.png">
+<meta property="og:image" content="http://example.com/images/040.png">
+<meta property="og:image" content="http://example.com/images/041.png">
+<meta property="og:image" content="http://example.com/images/042.png">
+<meta property="og:image" content="http://example.com/images/043.png">
+<meta property="og:image" content="http://example.com/images/044.png">
+<meta property="og:image" content="http://example.com/images/045.png">
+<meta property="og:image" content="http://example.com/images/046.png">
+<meta property="og:image" content="http://example.com/images/047.png">
+<meta property="og:image" content="http://example.com/images/048.png">
+<meta property="og:image" content="http://example.com/images/049.png">
+<meta property="og:image" content="http://example.com/images/050.png">
+<meta property="og:image" content="http://example.com/images/051.png">
+<meta property="og:image" content="http://example.com/images/052.png">
+<meta property="og:image" content="http://example.com/images/053.png">
+<meta property="og:image" content="http://example.com/images/054.png">
+<meta property="og:image" content="http://example.com/images/055.png">
+<meta property="og:image" content="http://example.com/images/056.png">
+<meta property="og:image" content="http://example.com/images/057.png">
+<meta property="og:image" content="http://example.com/images/058.png">
+<meta property="og:image" content="http://example.com/images/059.png">
+<meta property="og:image" content="http://example.com/images/060.png">
+<meta property="og:image" content="http://example.com/images/061.png">
+<meta property="og:image" content="http://example.com/images/062.png">
+<meta property="og:image" content="http://example.com/images/063.png">
+<meta property="og:image" content="http://example.com/images/064.png">
+<meta property="og:image" content="http://example.com/images/065.png">
+<meta property="og:image" content="http://example.com/images/066.png">
+<meta property="og:image" content="http://example.com/images/067.png">
+<meta property="article:published_time" content="2026-03-11T14:06:55.000Z">
+<meta property="article:modified_time" content="2026-03-11T14:06:55.668Z">
+<meta property="article:author" content="Maododo">
+<meta property="article:tag" content="WEB">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/030.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>WEB-无境SRC靶场</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&text=WEB-无境SRC靶场"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&is_video=false&description=WEB-无境SRC靶场"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WEB-无境SRC靶场&body=Check out this article: http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&name=WEB-无境SRC靶场&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&t=WEB-无境SRC靶场"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">支付漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.1.</span> <span class="toc-text">简单支付漏洞之整数溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">简单支付漏洞之优惠券数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E9%87%91%E9%A2%9D%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.</span> <span class="toc-text">简单支付漏洞之金额修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7"><span class="toc-number">1.4.</span> <span class="toc-text">简单支付漏洞之订单编号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5"><span class="toc-number">1.5.</span> <span class="toc-text">简单支付漏洞之四舍五入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.</span> <span class="toc-text">简单支付漏洞之优惠券遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text">越权漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS%E4%B8%8D%E8%83%BD%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E5%8F%88%E5%8A%A0%E5%AF%86%EF%BC%8C%E5%92%8B%E6%95%B4"><span class="toc-number">2.1.</span> <span class="toc-text">JS不能分析数据又加密，咋整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BID%E8%B6%8A%E6%9D%83"><span class="toc-number">2.2.</span> <span class="toc-text">简单越权漏洞之ID越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BJS%E9%80%86%E5%90%91"><span class="toc-number">2.3.</span> <span class="toc-text">简单越权漏洞之JS逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">逻辑漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%BC%8F%E6%B4%9E%E4%B9%8B%E7%BB%84%E5%90%88%E7%8E%AF%E5%A2%83%E4%B8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单漏洞之组合环境一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95-%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E4%BA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">简单-任意用户登录二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">简单逻辑漏洞之任意用户登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%8A%A5%E5%91%8A%E4%B9%8Bsql%E6%B3%A8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">真实报告之sql注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">5.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-csrf%E7%9A%84%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F"><span class="toc-number">5.1.</span> <span class="toc-text">xss+csrf的简单模拟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">6.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E4%B8%AA%E6%8E%A5%E5%8F%A3%E9%9A%90%E8%97%8F%E4%BA%86%EF%BC%8C%E6%89%BE%E5%88%B0%E5%AE%83"><span class="toc-number">6.1.</span> <span class="toc-text">有个接口隐藏了，找到它</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        WEB-无境SRC靶场
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Maododo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-03-11T14:06:55.000Z" class="dt-published" itemprop="datePublished">2026-03-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/WEB/" rel="tag">WEB</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <p>​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。</p>
+<p>​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。</p>
+<h2 id="支付漏洞"><a href="#支付漏洞" class="headerlink" title="支付漏洞"></a>支付漏洞</h2><p>​	这里的支付漏洞还是相当简单的，也是面试中的常被问到的点。</p>
+<h3 id="简单支付漏洞之整数溢出"><a href="#简单支付漏洞之整数溢出" class="headerlink" title="简单支付漏洞之整数溢出"></a>简单支付漏洞之整数溢出</h3><p>​	做这道题之前，需要了解一些基础的数值的数据类型：</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">符号性</th>
+<th align="left">字节数</th>
+<th align="left">数值范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">int8</td>
+<td align="left">有符号</td>
+<td align="left">1</td>
+<td align="left">-128 ~ 127</td>
+</tr>
+<tr>
+<td align="left">uint8</td>
+<td align="left">无符号</td>
+<td align="left">1</td>
+<td align="left">0 ~ 255</td>
+</tr>
+<tr>
+<td align="left">int16</td>
+<td align="left">有符号</td>
+<td align="left">2</td>
+<td align="left">-32768 ~ 32767</td>
+</tr>
+<tr>
+<td align="left">uint16</td>
+<td align="left">无符号</td>
+<td align="left">2</td>
+<td align="left">0 ~ 65535</td>
+</tr>
+<tr>
+<td align="left">int32</td>
+<td align="left">有符号</td>
+<td align="left">4</td>
+<td align="left">-2147483648 ~ 2147483647</td>
+</tr>
+<tr>
+<td align="left">uint32</td>
+<td align="left">无符号</td>
+<td align="left">4</td>
+<td align="left">0 ~ 4294967295</td>
+</tr>
+<tr>
+<td align="left">int64</td>
+<td align="left">有符号</td>
+<td align="left">8</td>
+<td align="left">-9223372036854775808 ~ 9223372036854775807</td>
+</tr>
+<tr>
+<td align="left">uint64</td>
+<td align="left">无符号</td>
+<td align="left">8</td>
+<td align="left">0 ~ 18446744073709551615</td>
+</tr>
+</tbody></table>
+<p>​	可以参考一下月神的这个科普视频：	<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV14wc1eAEk5/?share_source=copy_web&vd_source=d55fc83b642ee53fbbb3efe503823f94">【最大值溢出漏洞挖掘科普-月神】 </a></p>
+<p>​	就拿int8来举例子吧，有符号的数是通过补码的最高位来表示正负，1是负数，0是正数，那么int8类型的最大值就是0111 1111，如果在这个基础上+1的话，就变成了1000 0000，就是负数中的最小值，通过补码转换就是-128，所以就会出现，int8类型的127+1&#x3D;-128，然后还有一种情况，这种是正常的补码运算，就是-1 + 1，也就是1111 1111 + 0000 0001 &#x3D; 1 0000 0000，进位舍弃，结果为0000 0000，也就是0。所以，整数数值就相当于首尾相连。</p>
+<p>​	来分析分析这个场景吧：</p>
+<p>​	现在我们有1000元，目标商品是2400元，通过金额整数溢出来达成购买商品。	</p>
+<p><img src="/../../images/030.png" alt="个人中心"></p>
+<p><img src="/../../images/031.png" alt="订单结算"></p>
+<p><img src="/../../images/032.png" alt="数据包1"></p>
+<p>​	分析一下，这里上传了数量，我们能控制的有用参数貌似只有数量，商品单价是2400，看一下参数有什么限制。</p>
+<p><img src="/../../images/033.png" alt="数据包2"></p>
+<p>​	这里限制死了，只能上传大于等于0的参数，这里尝试上传一个大数<br><img src="/../../images/034.png" alt="数据包3"></p>
+<p>​	推测这里使用的是int32，月神那个视频里也提及了，微信支付使用的也是int32。反复测试一下，总金额没有超过2147483647，尝试进行刚刚好溢出，可能付款的值就小于当前值，数量为q， 2400*q -&gt; 2147483647+2147483648，计算出q的值取整然后+1。</p>
+<p><img src="/../../images/035.png" alt="整数溢出"></p>
+<h3 id="简单支付漏洞之优惠券数量"><a href="#简单支付漏洞之优惠券数量" class="headerlink" title="简单支付漏洞之优惠券数量"></a>简单支付漏洞之优惠券数量</h3><p>​	这个漏洞比较简单啊，成因是上送了优惠券的个数并进行计算，未对购买者持有优惠券数量进行校验。</p>
+<p><img src="/../../images/036.png" alt="优惠券数量更改"></p>
+<h3 id="简单支付漏洞之金额修改"><a href="#简单支付漏洞之金额修改" class="headerlink" title="简单支付漏洞之金额修改"></a>简单支付漏洞之金额修改</h3><p>​	这个漏洞也比较简单，上送了支付金额，推荐后端开发时，不进行上送利率、金额、总价等，只上送产品的id、个数并进行严格的过滤。</p>
+<p><img src="/../../images/037.png" alt="金额修改"></p>
+<p>​	<img src="/../../images/038.png" alt="订单记录"></p>
+<h3 id="简单支付漏洞之订单编号"><a href="#简单支付漏洞之订单编号" class="headerlink" title="简单支付漏洞之订单编号"></a>简单支付漏洞之订单编号</h3><p>​	这个的思路也十分的清晰，他的交易逻辑就是先上送产品id和数量，生成订单号，然后通过订单号进行扣费，这里能改的也就是数量，测试一下数量是否做了校验。</p>
+<p><img src="/../../images/039.png" alt="订单创建"></p>
+<p>​	<img src="/../../images/040.png" alt="支付订单"></p>
+<p><img src="/../../images/041.png" alt="订单信息"></p>
+<h3 id="简单支付漏洞之四舍五入"><a href="#简单支付漏洞之四舍五入" class="headerlink" title="简单支付漏洞之四舍五入"></a>简单支付漏洞之四舍五入</h3><p>​	感觉没有记录的必要。。。	<img src="/../../images/042.png" alt="支付记录"></p>
+<h3 id="简单支付漏洞之优惠券遍历"><a href="#简单支付漏洞之优惠券遍历" class="headerlink" title="简单支付漏洞之优惠券遍历"></a>简单支付漏洞之优惠券遍历</h3><p>​	有问题啊这个靶场，领不了优惠券，但是可以用订单编号那个过，有点失望。。。</p>
+<h2 id="越权漏洞"><a href="#越权漏洞" class="headerlink" title="越权漏洞"></a>越权漏洞</h2><h3 id="JS不能分析数据又加密，咋整"><a href="#JS不能分析数据又加密，咋整" class="headerlink" title="JS不能分析数据又加密，咋整"></a>JS不能分析数据又加密，咋整</h3><p>​	很简单啊，id越权，然后解JWT，这算非预期？</p>
+<p><img src="/../../images/043.png" alt="jwt"></p>
+<p><img src="/../../images/044.png" alt="get_profile"></p>
+<h3 id="简单越权漏洞之ID越权"><a href="#简单越权漏洞之ID越权" class="headerlink" title="简单越权漏洞之ID越权"></a>简单越权漏洞之ID越权</h3><p>​	很简单的一个id越权，简单的洞，但是很常见。</p>
+<p><img src="/../../images/045.png" alt="订单查询"></p>
+<h3 id="简单越权漏洞之JS逆向"><a href="#简单越权漏洞之JS逆向" class="headerlink" title="简单越权漏洞之JS逆向"></a>简单越权漏洞之JS逆向</h3><p>​	本靶场需要进行简单的js逆向，挖掘越权查看他人敏感信息漏洞。</p>
+<p>​	来，让我看看是什么js逆向，我觉得都难不倒我。</p>
+<p><img src="/../../images/046.png" alt="加密报文"></p>
+<p>​	这里一看就是一个对称加密，找到算法和key就好了。</p>
+<p>​	找到了加密文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line">;(<span class="keyword">function</span>(<span class="params">_0x2f4d, _0x5b7e, _0x8bf6</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">false</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">var</span> _0x5e6c = <span class="keyword">function</span>(<span class="params">_0x4d21</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x3a18</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> _0x7c09 = <span class="string">&#x27;&#x27;</span>, _0x1d0f = _0x3a18.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">var</span> _0x2e50 = <span class="number">0</span>; _0x2e50 &lt; _0x1d0f.<span class="property">length</span>; _0x2e50++) &#123;</span><br><span class="line">                _0x7c09 += _0x1d0f[_0x2e50];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_">_0x4d21</span>(_0x7c09);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x3471 = [<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;t&#x27;</span>,<span class="string">&#x27;o&#x27;</span>,<span class="string">&#x27;b&#x27;</span>];</span><br><span class="line">    <span class="keyword">var</span> _0x6d91 = <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="number">98</span>,<span class="number">116</span>,<span class="number">111</span>,<span class="number">97</span>);</span><br><span class="line">    <span class="keyword">var</span> _0x8e76 = <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="number">97</span>,<span class="number">116</span>,<span class="number">111</span>,<span class="number">98</span>);</span><br><span class="line">    <span class="keyword">var</span> _0x9c54 = <span class="title function_">_0x5e6c</span>(<span class="keyword">function</span>(<span class="params">_0x6b2d</span>)&#123; <span class="keyword">return</span> _0x2f4d[_0x6d91](_0x6b2d); &#125;);</span><br><span class="line">    <span class="keyword">var</span> _0x3b92 = <span class="title function_">_0x5e6c</span>(<span class="keyword">function</span>(<span class="params">_0x1a43</span>)&#123; <span class="keyword">return</span> _0x2f4d[_0x8e76](_0x1a43); &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x7f38 = <span class="keyword">function</span>(<span class="params">_0x2c7e</span>) &#123; <span class="keyword">return</span> <span class="keyword">typeof</span> _0x2c7e === <span class="string">&#x27;string&#x27;</span> ? _0x2c7e : <span class="string">&#x27;&#x27;</span>; &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x1da4 = <span class="keyword">function</span>(<span class="params">_0x4f21, _0x7d39</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> _0x3c5b = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x18d2</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> _0x4e87 = <span class="title function_">_0x4f21</span>(_0x18d2);</span><br><span class="line">            _0x3c5b++;</span><br><span class="line">            <span class="keyword">return</span> _0x7d39 ? <span class="title function_">_0x7d39</span>(_0x4e87) : _0x4e87;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x5c82 = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> _0x6e3d = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="keyword">var</span> _0x9a47 = [<span class="number">67</span>,<span class="number">48</span>,<span class="number">109</span>,<span class="number">112</span>,<span class="number">108</span>,<span class="number">51</span>,<span class="number">120</span>,<span class="number">95</span>,<span class="number">75</span>,<span class="number">51</span>,<span class="number">121</span>,<span class="number">95</span>,<span class="number">70</span>,<span class="number">48</span>,<span class="number">114</span>,<span class="number">95</span>,<span class="number">48</span>,<span class="number">112</span>,<span class="number">51</span>,<span class="number">110</span>,<span class="number">49</span>,<span class="number">100</span>,<span class="number">95</span>,<span class="number">51</span>,<span class="number">110</span>,<span class="number">99</span>,<span class="number">114</span>,<span class="number">121</span>,<span class="number">112</span>,<span class="number">116</span>,<span class="number">49</span>,<span class="number">48</span>,<span class="number">110</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> _0x5f21 = <span class="number">0</span>; _0x5f21 &lt; _0x9a47.<span class="property">length</span>; _0x5f21++) &#123;</span><br><span class="line">            _0x6e3d += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(_0x9a47[_0x5f21]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _0x6e3d;</span><br><span class="line">    &#125;)();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x5f34 = <span class="keyword">function</span>(<span class="params">_0x2d31, _0x4a7e</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0x2d31 ^ (_0x4a7e || <span class="number">1</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x7a92 = <span class="keyword">function</span>(<span class="params">_0x9e21</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0x9e21.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x4e72 = <span class="keyword">function</span>(<span class="params">_0x1c94</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x3d76</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_">_0x1c94</span>(_0x3d76);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x3c8f = <span class="keyword">function</span>(<span class="params">_0x6e29</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> _0x6e29.<span class="title function_">toString</span>(<span class="built_in">parseInt</span>(<span class="string">&#x27;100&#x27;</span>, <span class="number">4</span>));</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 故意添加混淆代码</span></span><br><span class="line">    <span class="keyword">var</span> _0x7c32 = [];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> _0x2e31 = <span class="number">0</span>; _0x2e31 &lt; <span class="number">10</span>; _0x2e31++) &#123;</span><br><span class="line">        _0x7c32.<span class="title function_">push</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">random</span>(); &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x9c21 = <span class="keyword">function</span>(<span class="params">_0x3e21</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(_0x3e21 % <span class="number">2</span> === <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x7e21</span>) &#123; <span class="keyword">return</span> _0x7e21 + <span class="number">1</span>; &#125;;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x7e21</span>) &#123; <span class="keyword">return</span> _0x7e21 - <span class="number">1</span>; &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x4a32 = <span class="title function_">_0x9c21</span>(<span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">10</span>));</span><br><span class="line">    </span><br><span class="line">    _0x2f4d[<span class="string">&#x27;encryptOpenid&#x27;</span>] = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> _0x3e21 = _0x7c32[<span class="number">3</span>]();</span><br><span class="line">        <span class="keyword">var</span> _0x7e21 = <span class="title function_">_0x4a32</span>(<span class="number">100</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x5d31</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!_0x5d31) <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">var</span> _0x2e43 = <span class="title function_">_0x9c54</span>(<span class="title function_">_0x7f38</span>(_0x5d31));</span><br><span class="line">            <span class="keyword">var</span> _0x7c82 = <span class="title function_">_0x7a92</span>(_0x2e43);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">var</span> _0x9e32 = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            <span class="keyword">var</span> _0x1a52 = <span class="number">0</span>, _0x6c73 = <span class="number">0</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 添加无意义的控制流</span></span><br><span class="line">            <span class="keyword">if</span>(_0x3e21 &gt; <span class="number">0.5</span>) &#123;</span><br><span class="line">                <span class="keyword">while</span> (_0x1a52 &lt; _0x7c82.<span class="property">length</span>) &#123;</span><br><span class="line">                    <span class="keyword">var</span> _0x8e93 = _0x7c82.<span class="title function_">charCodeAt</span>(_0x1a52);</span><br><span class="line">                    <span class="keyword">var</span> _0x4a21 = _0x5c82.<span class="title function_">charCodeAt</span>(_0x1a52 % _0x5c82.<span class="property">length</span>);</span><br><span class="line">                    _0x9e32 += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="title function_">_0x5f34</span>(_0x8e93, _0x4a21));</span><br><span class="line">                    _0x1a52 = ++_0x6c73;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">for</span>(_0x1a52 = <span class="number">0</span>; _0x1a52 &lt; _0x7c82.<span class="property">length</span>; _0x1a52++) &#123;</span><br><span class="line">                    <span class="keyword">var</span> _0x8e93 = _0x7c82.<span class="title function_">charCodeAt</span>(_0x1a52);</span><br><span class="line">                    <span class="keyword">var</span> _0x4a21 = _0x5c82.<span class="title function_">charCodeAt</span>(_0x1a52 % _0x5c82.<span class="property">length</span>);</span><br><span class="line">                    _0x9e32 += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="title function_">_0x5f34</span>(_0x8e93, _0x4a21));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">var</span> _0x2c83 = <span class="title function_">_0x9c54</span>(_0x9e32);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 使用eval增加混淆</span></span><br><span class="line">            <span class="keyword">var</span> _0x4e92 = <span class="built_in">eval</span>(<span class="string">&quot;Date[String.fromCharCode(110,111,119)]().toString(36)&quot;</span>);</span><br><span class="line">            <span class="keyword">var</span> _0x7a21 = <span class="built_in">eval</span>(<span class="string">&quot;Math[String.fromCharCode(114,97,110,100,111,109)]().toString(36).substring(2, 8)&quot;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> <span class="title function_">_0x9c54</span>(_0x7a21 + _0x2c83 + _0x4e92);</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)();</span><br><span class="line">    </span><br><span class="line">    _0x2f4d[<span class="string">&#x27;decryptOpenid&#x27;</span>] = (<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> _0x3e21 = _0x7c32[<span class="number">7</span>]();</span><br><span class="line">        <span class="keyword">var</span> _0x7e21 = <span class="title function_">_0x4a32</span>(<span class="number">50</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params">_0x3e72</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!_0x3e72) <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">var</span> _0x9a32 = <span class="title function_">_0x3b92</span>(<span class="title function_">_0x7f38</span>(_0x3e72));</span><br><span class="line">                <span class="keyword">var</span> _0x1c83 = _0x9a32.<span class="title function_">substring</span>(<span class="number">6</span>, _0x9a32.<span class="property">length</span> - <span class="number">8</span>);</span><br><span class="line">                <span class="keyword">var</span> _0x5e92 = <span class="title function_">_0x3b92</span>(_0x1c83);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">var</span> _0x8c32 = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 添加无意义的控制流</span></span><br><span class="line">                <span class="keyword">if</span>(_0x3e21 &lt; <span class="number">0.5</span>) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">var</span> _0x4a73 = <span class="number">0</span>; _0x4a73 &lt; _0x5e92.<span class="property">length</span>; _0x4a73++) &#123;</span><br><span class="line">                        <span class="keyword">var</span> _0x6e29 = _0x5e92.<span class="title function_">charCodeAt</span>(_0x4a73);</span><br><span class="line">                        <span class="keyword">var</span> _0x2c74 = _0x5c82.<span class="title function_">charCodeAt</span>(_0x4a73 % _0x5c82.<span class="property">length</span>);</span><br><span class="line">                        _0x8c32 += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="title function_">_0x5f34</span>(_0x6e29, _0x2c74));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">var</span> _0x4a73 = <span class="number">0</span>;</span><br><span class="line">                    <span class="keyword">while</span>(_0x4a73 &lt; _0x5e92.<span class="property">length</span>) &#123;</span><br><span class="line">                        <span class="keyword">var</span> _0x6e29 = _0x5e92.<span class="title function_">charCodeAt</span>(_0x4a73);</span><br><span class="line">                        <span class="keyword">var</span> _0x2c74 = _0x5c82.<span class="title function_">charCodeAt</span>(_0x4a73 % _0x5c82.<span class="property">length</span>);</span><br><span class="line">                        _0x8c32 += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="title function_">_0x5f34</span>(_0x6e29, _0x2c74));</span><br><span class="line">                        _0x4a73++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">var</span> _0x4e73 = <span class="title function_">_0x7a92</span>(_0x8c32);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">return</span> <span class="title function_">_0x3b92</span>(_0x4e73);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (_0x9c21) &#123;</span><br><span class="line">                (<span class="keyword">function</span>(<span class="params">_0x6e33</span>) &#123; </span><br><span class="line">                    _0x2f4d.<span class="property">console</span>[<span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(<span class="number">101</span>,<span class="number">114</span>,<span class="number">114</span>,<span class="number">111</span>,<span class="number">114</span>)](<span class="string">&#x27;n&#x27;</span>, _0x6e33);</span><br><span class="line">                &#125;)(_0x9c21);</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;)();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> _0x2e43 = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> _0x7c82 = [];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            _0x7c82.<span class="title function_">push</span>(<span class="keyword">function</span>(<span class="params">x</span>) &#123; <span class="keyword">return</span> x * x; &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> _0x7c82;</span><br><span class="line">    &#125;();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(![]) &#123;</span><br><span class="line">        _0x2f4d[<span class="string">&#x27;encryptOpenid&#x27;</span>] = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>; &#125;;</span><br><span class="line">        _0x2f4d[<span class="string">&#x27;decryptOpenid&#x27;</span>] = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>; &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;)(<span class="variable language_">this</span> || <span class="variable language_">window</span>, <span class="variable language_">document</span>, <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span>; &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../images/047.png" alt="js逆向"></p>
+<p>​	传入的openid是_0x5d31，在78行打断点，然后将其修改成1即可进行越权查询。</p>
+<h2 id="逻辑漏洞"><a href="#逻辑漏洞" class="headerlink" title="逻辑漏洞"></a>逻辑漏洞</h2><h3 id="简单漏洞之组合环境一"><a href="#简单漏洞之组合环境一" class="headerlink" title="简单漏洞之组合环境一"></a>简单漏洞之组合环境一</h3><blockquote>
+<p>靶场目标：买下会员专属商品</p>
+<p>由于需要手机号验证码登录，所以做了一个验证码平台在8081端口</p>
+<p>提示：此环境组合了两种手法，包括一种基础的手法与前面的靶场：《有个接口隐藏了，找到它》的练习手法，靶场不存在弱口令与验证码爆破，请勿浪费性能</p>
+<p>重要：验证码平台不参与漏洞逻辑，仅提供接码功能，预期解不涉及验证码平台本身，也不根据验证码平台能提供的信息去猜测</p>
+</blockquote>
+<p>​	这题的信息如上，反正我是没找到隐藏接口，太菜了，这种拼接谁能想到啊，将8081的接口拼到80的api上，我服了。</p>
+<p><img src="/../../images/048.png" alt="拼接接口"></p>
+<p>​	然后用获取到的糖糖账号，登录，更改获取手机验证码的接口参数。</p>
+<p><img src="/../../images/049.png" alt="验证码获取"></p>
+<p>​	登录后购买，这谁能想到啊，我要给差评。</p>
+<p><img src="/../../images/050.png" alt="getflag"></p>
+<h3 id="简单-任意用户登录二"><a href="#简单-任意用户登录二" class="headerlink" title="简单-任意用户登录二"></a>简单-任意用户登录二</h3><blockquote>
+<p>简单的任意用户登录</p>
+<p>滴滴滴滴，你收到了一个电话，来自13900812231，哦原来是四川成都xx单位的客户，他发给你了一个网站，让你测试有没有漏洞？</p>
+</blockquote>
+<p><img src="/../../images/051.png" alt="登录界面"></p>
+<p>​	既然题目都给出了任意用户登录了，我猜应该是响应包文直接替换就能绕过，尝试了一下，替换并不能直接进去，也不存在未授权，那么接下来看一下这个忘记密码功能和注册功能，任意用户登录在这里也容易出现。</p>
+<p>​	确实可以通过修改响应包来实现跨步，直接修改账号的密码。</p>
+<p><img src="/../../images/052.png" alt="重置密码"></p>
+<p>​	然后我尝试修改了题目中给出的手机号，可以修改，但是登录仍然显示封禁中，在我没有思路的时候，我去看了一眼评论区的提示，手机号可以爆破出可以使用的账号</p>
+<p><img src="/../../images/053.png" alt="账号枚举"></p>
+<p>​	按照刚才的思路，重置一下这个账号，并进行登录</p>
+<p><img src="/../../images/054.png" alt="主页"></p>
+<h3 id="简单逻辑漏洞之任意用户登录"><a href="#简单逻辑漏洞之任意用户登录" class="headerlink" title="简单逻辑漏洞之任意用户登录"></a>简单逻辑漏洞之任意用户登录</h3><p><img src="/../../images/055.png" alt="篡改响应包"></p>
+<p><img src="/../../images/056.png" alt="篡改响应包"></p>
+<p>​	篡改响应包，在请求包中加入主页下方的管理员手机号，别问我为什么这样绕，问出题人棉花糖吧。</p>
+<p><img src="/../../images/057.png" alt="getflag"></p>
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><h3 id="真实报告之sql注入"><a href="#真实报告之sql注入" class="headerlink" title="真实报告之sql注入"></a>真实报告之sql注入</h3><p><img src="/../../images/058.png" alt="排序注入"></p>
+<p>​	一眼排序注入</p>
+<p><img src="/../../images/059.png" alt="排序注入"></p>
+<p><img src="/../../images/060.png" alt="排序注入2"></p>
+<p>​	拿flag的话直接拿sqlmap跑吧，这里证明一下存在注入点就可以走了。</p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><h3 id="xss-csrf的简单模拟"><a href="#xss-csrf的简单模拟" class="headerlink" title="xss+csrf的简单模拟"></a>xss+csrf的简单模拟</h3><p><img src="/../../images/061.png" alt="圣杯页面"></p>
+<p>​	依旧圣杯页，注册一个账号</p>
+<p><img src="/../../images/062.png" alt="评论页"></p>
+<p>​	这个棉花糖怎么这么不正经。。。</p>
+<p>​	这里说是xss+csrf，接管账号的话，直接去找重置密码接口，看看密码重置接口需要的参数是什么。</p>
+<p><img src="/../../images/063.png" alt="重置密码"></p>
+<p>​	这里重置密码做的很敷衍啊，很简单，直接开始构造xss吧。</p>
+<p><img src="/../../images/064.png" alt="csrf"></p>
+<p>​	重新创建一个账号，看看是否存在csrf。确实可以更改</p>
+<p><img src="/../../images/065.png" alt="评论区"></p>
+<p>​	这里也存在糖糖的账号，直接登录试试。</p>
+<p><img src="/../../images/066.png" alt="mht个人中心"></p>
+<p>​	也是成功登录上糖糖的账号。</p>
+<h2 id="信息泄露"><a href="#信息泄露" class="headerlink" title="信息泄露"></a>信息泄露</h2><h3 id="有个接口隐藏了，找到它"><a href="#有个接口隐藏了，找到它" class="headerlink" title="有个接口隐藏了，找到它"></a>有个接口隐藏了，找到它</h3><p>​	直接扫目录，扫到了swagger，拼接接口（这个我是真的想不到得拼接admin，看了评论区才知道要这样整，还是太菜了）</p>
+<p><img src="/../../images/067.png" alt="拼接接口"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​	这个SRC靶场就这么打完了，这个靶场还是比较简单的，但有些点确实想不到，多练吧，没别的说的，菜就多练。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/links/">友链</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">支付漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.1.</span> <span class="toc-text">简单支付漏洞之整数溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">简单支付漏洞之优惠券数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E9%87%91%E9%A2%9D%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.</span> <span class="toc-text">简单支付漏洞之金额修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7"><span class="toc-number">1.4.</span> <span class="toc-text">简单支付漏洞之订单编号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5"><span class="toc-number">1.5.</span> <span class="toc-text">简单支付漏洞之四舍五入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.</span> <span class="toc-text">简单支付漏洞之优惠券遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text">越权漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS%E4%B8%8D%E8%83%BD%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E5%8F%88%E5%8A%A0%E5%AF%86%EF%BC%8C%E5%92%8B%E6%95%B4"><span class="toc-number">2.1.</span> <span class="toc-text">JS不能分析数据又加密，咋整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BID%E8%B6%8A%E6%9D%83"><span class="toc-number">2.2.</span> <span class="toc-text">简单越权漏洞之ID越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BJS%E9%80%86%E5%90%91"><span class="toc-number">2.3.</span> <span class="toc-text">简单越权漏洞之JS逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">逻辑漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%BC%8F%E6%B4%9E%E4%B9%8B%E7%BB%84%E5%90%88%E7%8E%AF%E5%A2%83%E4%B8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单漏洞之组合环境一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95-%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E4%BA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">简单-任意用户登录二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">简单逻辑漏洞之任意用户登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%8A%A5%E5%91%8A%E4%B9%8Bsql%E6%B3%A8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">真实报告之sql注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">5.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-csrf%E7%9A%84%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F"><span class="toc-number">5.1.</span> <span class="toc-text">xss+csrf的简单模拟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">6.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E4%B8%AA%E6%8E%A5%E5%8F%A3%E9%9A%90%E8%97%8F%E4%BA%86%EF%BC%8C%E6%89%BE%E5%88%B0%E5%AE%83"><span class="toc-number">6.1.</span> <span class="toc-text">有个接口隐藏了，找到它</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&text=WEB-无境SRC靶场"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&is_video=false&description=WEB-无境SRC靶场"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=WEB-无境SRC靶场&body=Check out this article: http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&name=WEB-无境SRC靶场&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&t=WEB-无境SRC靶场"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025-2026
+    Maododo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
