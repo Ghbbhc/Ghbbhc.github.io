@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="APP : XXX(未加固) 设备 : 1+ 8T (已root)  ​	一个工具APP，做的还挺可爱的，先查一下壳： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android逆向-一无壳应用检测绕过">
+<meta property="og:url" content="http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/index.html">
+<meta property="og:site_name" content="Maododo&#39;s Blog">
+<meta property="og:description" content="APP : XXX(未加固) 设备 : 1+ 8T (已root)  ​	一个工具APP，做的还挺可爱的，先查一下壳： 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/076.png">
+<meta property="og:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/075.png">
+<meta property="og:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/074.png">
+<meta property="og:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/077.png">
+<meta property="og:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/078.png">
+<meta property="article:published_time" content="2026-03-26T06:57:14.000Z">
+<meta property="article:modified_time" content="2026-04-09T02:08:31.237Z">
+<meta property="article:author" content="Maododo">
+<meta property="article:tag" content="Android逆向">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/Users/ghbbhc/Private/my-blog/source/images/076.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Android逆向-一无壳应用检测绕过</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2026/03/16/%E6%9D%82%E8%AE%B0-%E9%9A%BE%E5%BF%98%E7%9A%84%E4%B8%80%E5%A4%A9/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&text=Android逆向-一无壳应用检测绕过"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&is_video=false&description=Android逆向-一无壳应用检测绕过"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android逆向-一无壳应用检测绕过&body=Check out this article: http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&name=Android逆向-一无壳应用检测绕过&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&t=Android逆向-一无壳应用检测绕过"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Shamiko-%E9%9A%90%E8%97%8FMagisk"><span class="toc-number">1.</span> <span class="toc-text">Shamiko + 隐藏Magisk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hook-frida-%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87"><span class="toc-number">2.</span> <span class="toc-text">hook frida 检测绕过</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Android逆向-一无壳应用检测绕过
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">Maododo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2026-03-26T06:57:14.000Z" class="dt-published" itemprop="datePublished">2026-03-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/Android%E9%80%86%E5%90%91/" rel="tag">Android逆向</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <blockquote>
+<p>APP : XXX(未加固)</p>
+<p>设备 : 1+ 8T (已root)</p>
+</blockquote>
+<p>​	一个工具APP，做的还挺可爱的，先查一下壳：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">➜  todolist apkinfo -f todolist.apk</span><br><span class="line">APK检测工具 - 扫描配置:</span><br><span class="line">- 文件路径: todolist.apk</span><br><span class="line">- 检测类型: ROOT(true) 模拟器(true) 反调试(true) 代理(true) SDK(true) 硬编码(false) 证书(true)</span><br><span class="line">- 最大文件大小: 500 MB</span><br><span class="line">- 递归扫描: true</span><br><span class="line">---------------------------------------------------</span><br><span class="line">正在扫描APK文件: todolist.apk</span><br><span class="line"></span><br><span class="line">===================== 加固特征扫描结果 =====================</span><br><span class="line"></span><br><span class="line">未发现加固特征</span><br><span class="line"></span><br><span class="line">===================== 安全检测特征扫描结果 =====================</span><br><span class="line"></span><br><span class="line">[ROOT检测特征]</span><br><span class="line">    classes3.dex -&gt; /data/local/bin/su (SU二进制文件常见路径)</span><br><span class="line">    classes3.dex -&gt; /data/local/su (SU二进制备用路径)</span><br><span class="line">    classes3.dex -&gt; /data/local/xbin/su (Xposed框架SU路径)</span><br><span class="line">    classes3.dex -&gt; /sbin/su (系统分区SU文件)</span><br><span class="line">    classes3.dex -&gt; /su/bin/su (Systemless SU路径)</span><br><span class="line">    classes3.dex -&gt; /system/app/Superuser.apk (Superuser安装包)</span><br><span class="line">    classes3.dex -&gt; /system/bin/failsafe/su (故障安全模式SU)</span><br><span class="line">    classes3.dex -&gt; /system/bin/su (系统内置SU)</span><br><span class="line">    classes3.dex -&gt; /system/sd/xbin/su (SD卡扩展SU路径)</span><br><span class="line">    classes3.dex -&gt; /system/xbin/daemonsu (SuperSU守护进程)</span><br><span class="line">    classes3.dex -&gt; /system/xbin/su (常见SU存放路径)</span><br><span class="line">    classes3.dex -&gt; Superuser.apk (Superuser安装包（分段检测）)</span><br><span class="line">    classes3.dex -&gt; /system/xbin/ (常见Root工具目录（分段检测）)</span><br><span class="line">    classes3.dex -&gt; /vendor/bin/ (厂商Root工具目录（分段检测）)</span><br><span class="line">    classes3.dex -&gt; com.koushikdutta.superuser (Koush&#x27;s Superuser)</span><br><span class="line">    classes3.dex -&gt; com.noshufou.android.su (Superuser官方包名)</span><br><span class="line">    classes3.dex -&gt; com.thirdparty.superuser (第三方Superuser应用)</span><br><span class="line">    classes3.dex -&gt; eu.chainfire.supersu (Chainfire SuperSU)</span><br><span class="line">    classes6.dex -&gt; /data/local/bin/su (SU二进制文件常见路径)</span><br><span class="line">    classes6.dex -&gt; /data/local/su (SU二进制备用路径)</span><br><span class="line">    classes6.dex -&gt; /data/local/xbin/su (Xposed框架SU路径)</span><br><span class="line">    classes6.dex -&gt; /dev/com.koushikdutta.superuser.daemon/ (Superuser守护进程socket)</span><br><span class="line">    classes6.dex -&gt; /sbin/su (系统分区SU文件)</span><br><span class="line">    classes6.dex -&gt; /su/bin/su (Systemless SU路径)</span><br><span class="line">    classes6.dex -&gt; /system/app/Superuser.apk (Superuser安装包)</span><br><span class="line">    classes6.dex -&gt; /system/bin/failsafe/su (故障安全模式SU)</span><br><span class="line">    classes6.dex -&gt; /system/bin/su (系统内置SU)</span><br><span class="line">    classes6.dex -&gt; /system/etc/init.d/99SuperSUDaemon (SuperSU守护进程脚本)</span><br><span class="line">    classes6.dex -&gt; /system/sd/xbin/su (SD卡扩展SU路径)</span><br><span class="line">    classes6.dex -&gt; /system/xbin/su (常见SU存放路径)</span><br><span class="line">    classes6.dex -&gt; Superuser.apk (Superuser安装包（分段检测）)</span><br><span class="line">    classes6.dex -&gt; /system/xbin/ (常见Root工具目录（分段检测）)</span><br><span class="line">    classes6.dex -&gt; com.chelpus.lackypatch (Lucky Patcher工具)</span><br><span class="line">    classes6.dex -&gt; com.dimonvideo.luckypatcher (Lucky Patcher官方包名)</span><br><span class="line">    classes6.dex -&gt; com.koushikdutta.rommanager (Rom Manager刷机工具)</span><br><span class="line">    classes6.dex -&gt; com.koushikdutta.rommanager.license (Rom Manager许可证)</span><br><span class="line">    classes6.dex -&gt; com.koushikdutta.superuser (Koush&#x27;s Superuser)</span><br><span class="line">    classes6.dex -&gt; com.noshufou.android.su (Superuser官方包名)</span><br><span class="line">    classes6.dex -&gt; com.noshufou.android.su.elite (Superuser付费版)</span><br><span class="line">    classes6.dex -&gt; com.ramdroid.appquarantine (应用隔离工具（需root）)</span><br><span class="line">    classes6.dex -&gt; com.ramdroid.appquarantinepro (专业版应用隔离)</span><br><span class="line">    classes6.dex -&gt; com.thirdparty.superuser (第三方Superuser应用)</span><br><span class="line">    classes6.dex -&gt; com.yellowes.su (早期SuperSU变种)</span><br><span class="line">    classes6.dex -&gt; eu.chainfire.supersu (Chainfire SuperSU)</span><br><span class="line">    classes7.dex -&gt; /system/app/Kinguser.apk (Kingroot安装包)</span><br><span class="line">    classes7.dex -&gt; /system/app/Superuser.apk (Superuser安装包)</span><br><span class="line">    classes7.dex -&gt; Kinguser.apk (Kingroot安装包（分段检测）)</span><br><span class="line">    classes7.dex -&gt; Superuser.apk (Superuser安装包（分段检测）)</span><br><span class="line">    classes7.dex -&gt; /system/xbin/ (常见Root工具目录（分段检测）)</span><br><span class="line">    classes7.dex -&gt; /vendor/bin/ (厂商Root工具目录（分段检测）)</span><br><span class="line"></span><br><span class="line">[模拟器检测特征]</span><br><span class="line">    classes.dex -&gt; emulator (模拟器标识)</span><br><span class="line">    classes2.dex -&gt; 000000000000000 (模拟器默认IMEI)</span><br><span class="line">    classes3.dex -&gt; tel:123456 (模拟器默认电话号码)</span><br><span class="line">    classes3.dex -&gt; test-keys (测试版系统特征)</span><br><span class="line">    classes3.dex -&gt; goldfish (Android模拟器内核标识)</span><br><span class="line">    classes3.dex -&gt; 000000000000000 (模拟器默认IMEI)</span><br><span class="line">    classes3.dex -&gt; /dev/socket/qemud (QEMU守护进程socket)</span><br><span class="line">    classes3.dex -&gt; /dev/qemu_pipe (QEMU管道通信接口)</span><br><span class="line">    classes3.dex -&gt; ro.kernel.qemu (QEMU内核属性标识)</span><br><span class="line">    classes3.dex -&gt; emulator (模拟器标识)</span><br><span class="line">    classes3.dex -&gt; 10.0.2.15 (默认NAT网关IP)</span><br><span class="line">    classes3.dex -&gt; eth0 (模拟器网络接口)</span><br><span class="line">    classes4.dex -&gt; goldfish (Android模拟器内核标识)</span><br><span class="line">    classes4.dex -&gt; 000000000000000 (模拟器默认IMEI)</span><br><span class="line">    classes4.dex -&gt; emulator (模拟器标识)</span><br><span class="line">    classes6.dex -&gt; goldfish (Android模拟器内核标识)</span><br><span class="line">    classes6.dex -&gt; ro.kernel.qemu (QEMU内核属性标识)</span><br><span class="line">    classes6.dex -&gt; generic_x86 (模拟器常见ABI)</span><br><span class="line">    classes6.dex -&gt; emulator (模拟器标识)</span><br><span class="line">    classes7.dex -&gt; test-keys (测试版系统特征)</span><br><span class="line">    classes7.dex -&gt; goldfish (Android模拟器内核标识)</span><br><span class="line">    classes7.dex -&gt; 000000000000000 (模拟器默认IMEI)</span><br><span class="line">    classes7.dex -&gt; eth0 (模拟器网络接口)</span><br><span class="line"></span><br><span class="line">[反调试检测特征]</span><br><span class="line">    classes6.dex -&gt; com.android.internal.os.ZygoteInit (Zygote初始化检测)</span><br><span class="line">    classes6.dex -&gt; de.robv.android.xposed.XposedBridge (Xposed框架检测)</span><br><span class="line">    classes6.dex -&gt; frida-gadget (Frida工具检测)</span><br><span class="line">    classes6.dex -&gt; frida-server (Frida服务器进程检测)</span><br><span class="line">    classes6.dex -&gt; /proc/self/status (TracerPid状态检测)</span><br><span class="line">    classes6.dex -&gt; com.saurik.substrate (Substrate框架检测)</span><br><span class="line">    classes7.dex -&gt; ptrace (Ptrace调试检测)</span><br><span class="line"></span><br><span class="line">[代理检测特征]</span><br><span class="line">    classes3.dex -&gt; Ljavax/net/ssl/X509TrustManager; (自定义证书信任管理器)</span><br><span class="line">    classes4.dex -&gt; Ljavax/net/ssl/X509TrustManager; (自定义证书信任管理器)</span><br><span class="line">    classes5.dex -&gt; Ljavax/net/ssl/X509TrustManager; (自定义证书信任管理器)</span><br><span class="line">    classes6.dex -&gt; Ljavax/net/ssl/X509TrustManager; (自定义证书信任管理器)</span><br><span class="line">    classes7.dex -&gt; Ljavax/net/ssl/X509TrustManager; (自定义证书信任管理器)</span><br><span class="line"></span><br><span class="line">===================== 第三方SDK特征扫描结果 =====================</span><br><span class="line"></span><br><span class="line">[Alibaba]</span><br><span class="line">    岳鹰全景监控 -&gt; lib/arm64-v8a/libcrashsdk.so</span><br><span class="line">    岳鹰全景监控 -&gt; lib/armeabi-v7a/libcrashsdk.so</span><br><span class="line"></span><br><span class="line">[Google]</span><br><span class="line">    BarHopper -&gt; lib/arm64-v8a/libbarhopper_v3.so</span><br><span class="line">    BarHopper -&gt; lib/armeabi-v7a/libbarhopper_v3.so</span><br><span class="line">    BarHopper -&gt; lib/x86_64/libbarhopper_v3.so</span><br><span class="line">    Jetpack Camera -&gt; lib/arm64-v8a/libimage_processing_util_jni.so</span><br><span class="line">    Jetpack Camera -&gt; lib/armeabi-v7a/libimage_processing_util_jni.so</span><br><span class="line">    Jetpack Camera -&gt; lib/x86_64/libimage_processing_util_jni.so</span><br><span class="line">    Jetpack Graphics -&gt; lib/arm64-v8a/libandroidx.graphics.path.so</span><br><span class="line">    Jetpack Graphics -&gt; lib/armeabi-v7a/libandroidx.graphics.path.so</span><br><span class="line">    Jetpack Graphics -&gt; lib/x86_64/libandroidx.graphics.path.so</span><br><span class="line"></span><br><span class="line">[Tencent]</span><br><span class="line">    PAG -&gt; lib/arm64-v8a/libpag.so</span><br><span class="line">    PAG -&gt; lib/armeabi-v7a/libpag.so</span><br><span class="line">    PAG -&gt; lib/x86_64/libpag.so</span><br><span class="line"></span><br><span class="line">[Umeng]</span><br><span class="line">    移动统计分析 -&gt; lib/arm64-v8a/libumeng-spy.so</span><br><span class="line">    移动统计分析 -&gt; lib/armeabi-v7a/libumeng-spy.so</span><br><span class="line"></span><br><span class="line">[创蓝云智]</span><br><span class="line">    闪验 SDK -&gt; lib/arm64-v8a/libShanYCore.so</span><br><span class="line">    闪验 SDK -&gt; lib/armeabi-v7a/libShanYCore.so</span><br><span class="line">    闪验 SDK -&gt; lib/x86_64/libShanYCore.so</span><br><span class="line"></span><br><span class="line">[极光]</span><br><span class="line">    极光认证 SDK -&gt; lib/arm64-v8a/libCtaApiLib.so</span><br><span class="line">    极光认证 SDK -&gt; lib/armeabi-v7a/libCtaApiLib.so</span><br><span class="line">    极光认证 SDK -&gt; lib/x86_64/libCtaApiLib.so</span><br><span class="line"></span><br><span class="line">[移动安全联盟]</span><br><span class="line">    MSA SDK -&gt; lib/arm64-v8a/libm	saoaidauth.so</span><br><span class="line">    MSA SDK -&gt; lib/arm64-v8a/libmsaoaidsec.so</span><br><span class="line">    MSA SDK -&gt; lib/armeabi-v7a/libmsaoaidauth.so</span><br><span class="line">    MSA SDK -&gt; lib/armeabi-v7a/libmsaoaidsec.so</span><br><span class="line">    MSA SDK -&gt; lib/x86_64/libmsaoaidauth.so</span><br><span class="line">    MSA SDK -&gt; lib/x86_64/libmsaoaidsec.so</span><br><span class="line"></span><br><span class="line">===================== 证书扫描结果 =====================</span><br><span class="line"></span><br><span class="line">[!] 未发现证书文件</span><br></pre></td></tr></table></figure>
+
+<p>​	无壳，但看上去应该是存在root检测、frida检测、模拟器检测。针对这几种检测，有以下这几种检测方式，先不启动frida，直接使用root机进行绕过root检测试一试。</p>
+<pre><code>### 检测绕过
+</code></pre>
+<h4 id="Shamiko-隐藏Magisk"><a href="#Shamiko-隐藏Magisk" class="headerlink" title="Shamiko + 隐藏Magisk"></a>Shamiko + 隐藏Magisk</h4><p>​	隐藏magisk很简单，在设置中打开“隐藏Magisk应用”选项即可。</p>
+<p>​	<img src="/Users/ghbbhc/Private/my-blog/source/images/076.png" alt="隐藏magisk"></p>
+<p>​	shamiko是LSPosed团队开发的的一个zygisk模块，意在替代MagiskHide，实现强大的root隐藏，如要使用shamiko模块，则需要：</p>
+<ul>
+<li>开启zygisk</li>
+<li>关闭Magisk中的”遵循排除列表“选项</li>
+<li>在配置排除列表中勾选需要隐藏root的app</li>
+</ul>
+<p>​	当shamiko中显示一个笑脸，即生效，like that:</p>
+<p><img src="/Users/ghbbhc/Private/my-blog/source/images/075.png" alt="shamiko"></p>
+<p>​	经过以上操作，app可以在root的情况下启动了，接下来便是绕过frida检测。</p>
+<h4 id="hook-frida-检测绕过"><a href="#hook-frida-检测绕过" class="headerlink" title="hook frida 检测绕过"></a>hook frida 检测绕过</h4><p>​	在测试机上启动frida 服务端，然后启动app，立马闪退，使用hook dlopen脚本，查看是加载哪个so文件时出现闪退问题：</p>
+<p><img src="/Users/ghbbhc/Private/my-blog/source/images/074.png" alt="hook dlopen"></p>
+<blockquote>
+<p>定位到libmsaoaidsec.so</p>
+</blockquote>
+<p>​	这里可以使用Libchecker工具来查看这个app所加载的原生库、服务等详细信息</p>
+<p><img src="/Users/ghbbhc/Private/my-blog/source/images/077.png" alt="Libchecker"></p>
+<p>​		现在可以直接写hook，启动时禁止该so文件加载，这种大概率会直接崩溃，然而我们还是要尝试一下，是否可以加载成功</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拦截 dlopen 和 android_dlopen_ext，禁止指定 SO 加载</span></span><br><span class="line"><span class="keyword">const</span> forbiddenSo = <span class="string">&quot;libmsaoaidsec.so&quot;</span>; <span class="comment">// 替换成你要禁止的 SO 文件名</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">hookDlopen</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> dlopen = <span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(<span class="string">&quot;libdl.so&quot;</span>, <span class="string">&quot;dlopen&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> android_dlopen_ext = <span class="title class_">Module</span>.<span class="title function_">findExportByName</span>(<span class="string">&quot;libdl.so&quot;</span>, <span class="string">&quot;android_dlopen_ext&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hook dlopen</span></span><br><span class="line">    <span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(dlopen, &#123;</span><br><span class="line">        <span class="title function_">onEnter</span>(<span class="params">args</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> path = args[<span class="number">0</span>].<span class="title function_">readCString</span>();</span><br><span class="line">            <span class="keyword">if</span> (path &amp;&amp; path.<span class="title function_">includes</span>(forbiddenSo)) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[+] 拦截 dlopen: <span class="subst">$&#123;path&#125;</span>`</span>);</span><br><span class="line">                args[<span class="number">0</span>] = <span class="title function_">ptr</span>(<span class="string">&quot;0&quot;</span>); <span class="comment">// 直接置空，让加载失败</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hook android_dlopen_ext（Android 7.0+ 主流加载函数）</span></span><br><span class="line">    <span class="title class_">Interceptor</span>.<span class="title function_">attach</span>(android_dlopen_ext, &#123;	</span><br><span class="line">        <span class="title function_">onEnter</span>(<span class="params">args</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> path = args[<span class="number">0</span>].<span class="title function_">readCString</span>();</span><br><span class="line">            <span class="keyword">if</span> (path &amp;&amp; path.<span class="title function_">includes</span>(forbiddenSo)) &#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`[+] 拦截 android_dlopen_ext: <span class="subst">$&#123;path&#125;</span>`</span>);</span><br><span class="line">                args[<span class="number">0</span>] = <span class="title function_">ptr</span>(<span class="string">&quot;0&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 执行 Hook</span></span><br><span class="line"><span class="built_in">setTimeout</span>(hookDlopen, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​	直接启动和hook都不能将app起来，看来frida检测这种方式不能绕过，还需要hook具体的函数</p>
+<p><img src="/Users/ghbbhc/Private/my-blog/source/images/078.png" alt="fridahook"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a href="/links/">友链</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Shamiko-%E9%9A%90%E8%97%8FMagisk"><span class="toc-number">1.</span> <span class="toc-text">Shamiko + 隐藏Magisk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#hook-frida-%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87"><span class="toc-number">2.</span> <span class="toc-text">hook frida 检测绕过</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&text=Android逆向-一无壳应用检测绕过"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&is_video=false&description=Android逆向-一无壳应用检测绕过"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android逆向-一无壳应用检测绕过&body=Check out this article: http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&title=Android逆向-一无壳应用检测绕过"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&name=Android逆向-一无壳应用检测绕过&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/26/Android%E9%80%86%E5%90%91-%E4%B8%80%E6%97%A0%E5%A3%B3%E5%BA%94%E7%94%A8%E6%A3%80%E6%B5%8B%E7%BB%95%E8%BF%87/&t=Android逆向-一无壳应用检测绕过"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2025-2026
+    Maododo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a href="/links/">友链</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
