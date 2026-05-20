@@ -42,9 +42,21 @@
 .theme-green  { --theme-color: #23d160; }
 .theme-purple { --theme-color: #b86bff; }
 .theme-red    { --theme-color: #ff3860; }
-.theme-dark   { --theme-color: #3273dc; --theme-bg: #1a1a2e; --theme-text: #ccc; --theme-card: #16213e; --theme-border: #333; }
+.theme-dark   { --theme-color: #5da3ff; --theme-bg: #1a1a2e; --theme-text: #ccc; --theme-card: #16213e; --theme-border: #333; }
 
-/* apply theme colors */
+/* accent color applied to page elements */
+.navbar-item:hover,
+.navbar-link:hover { color: var(--theme-color) !important; }
+a:not(.button):not(.navbar-item):not(.pagination-link):not(.friend-card) { color: var(--theme-color); }
+.pagination-link.is-current { background: var(--theme-color) !important; border-color: var(--theme-color) !important; }
+.tag:not(.is-delete) { background: var(--theme-color) !important; color: #fff; }
+.button.is-primary { background: var(--theme-color) !important; }
+.card:hover { box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-color) 20%, transparent); }
+.article .title a:hover { color: var(--theme-color) !important; }
+.widget .menu-list a:hover { color: var(--theme-color) !important; }
+::selection { background: color-mix(in srgb, var(--theme-color) 30%, transparent); }
+
+/* dark mode overrides */
 .theme-dark body { background: var(--theme-bg); color: var(--theme-text); }
 .theme-dark .card,
 .theme-dark .article,
@@ -65,7 +77,7 @@
 .theme-dark pre { background: #16213e !important; }
 .theme-dark .navbar-menu { background: var(--theme-card) !important; }
 
-/* color picker */
+/* color picker widget */
 .color-picker-btn {
   position: fixed; bottom: 24px; right: 24px; z-index: 9999;
   width: 40px; height: 40px; border-radius: 50%; border: none;
@@ -78,11 +90,11 @@
   position: fixed; bottom: 72px; right: 24px; z-index: 9999;
   background: #fff; border-radius: 12px; padding: 12px; display: none;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15); gap: 8px;
-  grid-template-columns: repeat(4, 32px);
+  grid-template-columns: repeat(3, 36px);
 }
 .color-picker-panel.open { display: grid; }
 .color-dot {
-  width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent;
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent;
   cursor: pointer; transition: transform 0.2s;
 }
 .color-dot:hover { transform: scale(1.2); }
@@ -113,7 +125,7 @@
         });</script><!-- hexo injector body_end start -->
 <div class="color-picker-btn" id="colorBtn" title="更换配色">🎨</div>
 <div class="color-picker-panel" id="colorPanel">
-  <div class="color-dot" data-theme="" style="background:#3273dc;border-color:#ccc;" title="默认蓝"></div>
+  <div class="color-dot active" data-theme="" style="background:#3273dc;" title="默认蓝"></div>
   <div class="color-dot" data-theme="theme-orange" style="background:#e8833a;" title="橙色"></div>
   <div class="color-dot" data-theme="theme-green" style="background:#23d160;" title="绿色"></div>
   <div class="color-dot" data-theme="theme-purple" style="background:#b86bff;" title="紫色"></div>
@@ -124,27 +136,28 @@
 (function(){
   var btn = document.getElementById('colorBtn');
   var panel = document.getElementById('colorPanel');
-  var body = document.documentElement;
-  var currentTheme = localStorage.getItem('icarus-theme') || '';
+  var html = document.documentElement;
+  var current = localStorage.getItem('icarus-theme') || '';
 
-  function applyTheme(name) {
-    body.className = body.className.replace(/theme-w+/g, '').trim();
-    if(name) body.classList.add(name);
+  function apply(name) {
+    html.className = html.className.replace(/theme-w+/g, '').replace(/s+/g, ' ').trim();
+    if (name) html.classList.add(name);
     localStorage.setItem('icarus-theme', name);
     document.querySelectorAll('.color-dot').forEach(function(d){
       d.classList.toggle('active', d.dataset.theme === name);
     });
   }
 
-  applyTheme(currentTheme);
+  apply(current);
 
   btn.addEventListener('click', function(e){ e.stopPropagation(); panel.classList.toggle('open'); });
   document.addEventListener('click', function(){ panel.classList.remove('open'); });
+
   panel.addEventListener('click', function(e){
     e.stopPropagation();
     var dot = e.target.closest('.color-dot');
-    if(!dot) return;
-    applyTheme(dot.dataset.theme);
+    if (!dot) return;
+    apply(dot.dataset.theme);
     panel.classList.remove('open');
   });
 })();
