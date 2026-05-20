@@ -1,205 +1,35 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还">
-<meta property="og:type" content="article">
-<meta property="og:title" content="WEB-无境SRC靶场">
-<meta property="og:url" content="http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/index.html">
-<meta property="og:site_name" content="Maododo&#39;s Blog">
-<meta property="og:description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/030.png">
-<meta property="og:image" content="http://example.com/images/031.png">
-<meta property="og:image" content="http://example.com/images/032.png">
-<meta property="og:image" content="http://example.com/images/033.png">
-<meta property="og:image" content="http://example.com/images/034.png">
-<meta property="og:image" content="http://example.com/images/035.png">
-<meta property="og:image" content="http://example.com/images/036.png">
-<meta property="og:image" content="http://example.com/images/037.png">
-<meta property="og:image" content="http://example.com/images/038.png">
-<meta property="og:image" content="http://example.com/images/039.png">
-<meta property="og:image" content="http://example.com/images/040.png">
-<meta property="og:image" content="http://example.com/images/041.png">
-<meta property="og:image" content="http://example.com/images/042.png">
-<meta property="og:image" content="http://example.com/images/043.png">
-<meta property="og:image" content="http://example.com/images/044.png">
-<meta property="og:image" content="http://example.com/images/045.png">
-<meta property="og:image" content="http://example.com/images/046.png">
-<meta property="og:image" content="http://example.com/images/047.png">
-<meta property="og:image" content="http://example.com/images/048.png">
-<meta property="og:image" content="http://example.com/images/049.png">
-<meta property="og:image" content="http://example.com/images/050.png">
-<meta property="og:image" content="http://example.com/images/051.png">
-<meta property="og:image" content="http://example.com/images/052.png">
-<meta property="og:image" content="http://example.com/images/053.png">
-<meta property="og:image" content="http://example.com/images/054.png">
-<meta property="og:image" content="http://example.com/images/055.png">
-<meta property="og:image" content="http://example.com/images/056.png">
-<meta property="og:image" content="http://example.com/images/057.png">
-<meta property="og:image" content="http://example.com/images/058.png">
-<meta property="og:image" content="http://example.com/images/059.png">
-<meta property="og:image" content="http://example.com/images/060.png">
-<meta property="og:image" content="http://example.com/images/061.png">
-<meta property="og:image" content="http://example.com/images/062.png">
-<meta property="og:image" content="http://example.com/images/063.png">
-<meta property="og:image" content="http://example.com/images/064.png">
-<meta property="og:image" content="http://example.com/images/065.png">
-<meta property="og:image" content="http://example.com/images/066.png">
-<meta property="og:image" content="http://example.com/images/067.png">
-<meta property="article:published_time" content="2026-03-11T14:06:55.000Z">
-<meta property="article:modified_time" content="2026-03-11T14:06:55.668Z">
-<meta property="article:author" content="Maododo">
-<meta property="article:tag" content="WEB">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/030.png">
-    
-    
-      
-        
-          <link rel="shortcut icon" href="/images/favicon.ico">
-        
-      
-      
-        
-          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-        
-      
-      
-        
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        
-      
-    
-    <!-- title -->
-    <title>WEB-无境SRC靶场</title>
-    <!-- async scripts -->
-    <!-- Google Analytics -->
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>WEB-无境SRC靶场 - Maododo&#039;s Tech</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Maododo&#039;s Tech"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Maododo&#039;s Tech"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还"><meta property="og:type" content="article"><meta property="og:title" content="WEB-无境SRC靶场"><meta property="og:url" content="https://ghbbhc.github.io/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><meta property="og:site_name" content="Maododo&#039;s Tech"><meta property="og:description" content="​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​	这里的支付漏洞还"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://ghbbhc.github.io/images/030.png"><meta property="og:image" content="https://ghbbhc.github.io/images/031.png"><meta property="og:image" content="https://ghbbhc.github.io/images/032.png"><meta property="og:image" content="https://ghbbhc.github.io/images/033.png"><meta property="og:image" content="https://ghbbhc.github.io/images/034.png"><meta property="og:image" content="https://ghbbhc.github.io/images/035.png"><meta property="og:image" content="https://ghbbhc.github.io/images/036.png"><meta property="og:image" content="https://ghbbhc.github.io/images/037.png"><meta property="og:image" content="https://ghbbhc.github.io/images/038.png"><meta property="og:image" content="https://ghbbhc.github.io/images/039.png"><meta property="og:image" content="https://ghbbhc.github.io/images/040.png"><meta property="og:image" content="https://ghbbhc.github.io/images/041.png"><meta property="og:image" content="https://ghbbhc.github.io/images/042.png"><meta property="og:image" content="https://ghbbhc.github.io/images/043.png"><meta property="og:image" content="https://ghbbhc.github.io/images/044.png"><meta property="og:image" content="https://ghbbhc.github.io/images/045.png"><meta property="og:image" content="https://ghbbhc.github.io/images/046.png"><meta property="og:image" content="https://ghbbhc.github.io/images/047.png"><meta property="og:image" content="https://ghbbhc.github.io/images/048.png"><meta property="og:image" content="https://ghbbhc.github.io/images/049.png"><meta property="og:image" content="https://ghbbhc.github.io/images/050.png"><meta property="og:image" content="https://ghbbhc.github.io/images/051.png"><meta property="og:image" content="https://ghbbhc.github.io/images/052.png"><meta property="og:image" content="https://ghbbhc.github.io/images/053.png"><meta property="og:image" content="https://ghbbhc.github.io/images/054.png"><meta property="og:image" content="https://ghbbhc.github.io/images/055.png"><meta property="og:image" content="https://ghbbhc.github.io/images/056.png"><meta property="og:image" content="https://ghbbhc.github.io/images/057.png"><meta property="og:image" content="https://ghbbhc.github.io/images/058.png"><meta property="og:image" content="https://ghbbhc.github.io/images/059.png"><meta property="og:image" content="https://ghbbhc.github.io/images/060.png"><meta property="og:image" content="https://ghbbhc.github.io/images/061.png"><meta property="og:image" content="https://ghbbhc.github.io/images/062.png"><meta property="og:image" content="https://ghbbhc.github.io/images/063.png"><meta property="og:image" content="https://ghbbhc.github.io/images/064.png"><meta property="og:image" content="https://ghbbhc.github.io/images/065.png"><meta property="og:image" content="https://ghbbhc.github.io/images/066.png"><meta property="og:image" content="https://ghbbhc.github.io/images/067.png"><meta property="article:published_time" content="2026-03-11T14:06:55.000Z"><meta property="article:modified_time" content="2026-03-11T14:06:55.668Z"><meta property="article:author" content="Maododo"><meta property="article:tag" content="WEB"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://ghbbhc.github.io/images/030.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ghbbhc.github.io/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"},"headline":"WEB-无境SRC靶场","image":["https://ghbbhc.github.io/images/030.png","https://ghbbhc.github.io/images/031.png","https://ghbbhc.github.io/images/032.png","https://ghbbhc.github.io/images/033.png","https://ghbbhc.github.io/images/034.png","https://ghbbhc.github.io/images/035.png","https://ghbbhc.github.io/images/036.png","https://ghbbhc.github.io/images/037.png","https://ghbbhc.github.io/images/038.png","https://ghbbhc.github.io/images/039.png","https://ghbbhc.github.io/images/040.png","https://ghbbhc.github.io/images/041.png","https://ghbbhc.github.io/images/042.png","https://ghbbhc.github.io/images/043.png","https://ghbbhc.github.io/images/044.png","https://ghbbhc.github.io/images/045.png","https://ghbbhc.github.io/images/046.png","https://ghbbhc.github.io/images/047.png","https://ghbbhc.github.io/images/048.png","https://ghbbhc.github.io/images/049.png","https://ghbbhc.github.io/images/050.png","https://ghbbhc.github.io/images/051.png","https://ghbbhc.github.io/images/052.png","https://ghbbhc.github.io/images/053.png","https://ghbbhc.github.io/images/054.png","https://ghbbhc.github.io/images/055.png","https://ghbbhc.github.io/images/056.png","https://ghbbhc.github.io/images/057.png","https://ghbbhc.github.io/images/058.png","https://ghbbhc.github.io/images/059.png","https://ghbbhc.github.io/images/060.png","https://ghbbhc.github.io/images/061.png","https://ghbbhc.github.io/images/062.png","https://ghbbhc.github.io/images/063.png","https://ghbbhc.github.io/images/064.png","https://ghbbhc.github.io/images/065.png","https://ghbbhc.github.io/images/066.png","https://ghbbhc.github.io/images/067.png"],"datePublished":"2026-03-11T14:06:55.000Z","dateModified":"2026-03-11T14:06:55.668Z","author":{"@type":"Person","name":"Maododo"},"publisher":{"@type":"Organization","name":"Maododo's Tech","logo":{"@type":"ImageObject"}},"description":"​\t小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。 ​\t既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。 支付漏洞​\t这里的支付漏洞还"}</script><link rel="canonical" href="https://ghbbhc.github.io/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
 
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
 
-    <!-- Umami Analytics -->
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
 
-
-    <!-- styles -->
-    
-<link rel="stylesheet" href="/css/style.css">
-
-    <!-- persian styles -->
-    
-    <!-- rss -->
-    
-    
-	<!-- mathjax -->
-	
-<meta name="generator" content="Hexo 8.1.1"></head>
-
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        <!--
-       --><li><a href="/">首页</a></li><!--
-     --><!--
-       --><li><a href="/about/">关于</a></li><!--
-     --><!--
-       --><li><a href="/archives/">归档</a></li><!--
-     --><!--
-       --><li><a href="/links/">友链</a></li><!--
-     -->
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" aria-label="上一篇" href="/2026/03/16/%E6%9D%82%E8%AE%B0-%E9%9A%BE%E5%BF%98%E7%9A%84%E4%B8%80%E5%A4%A9/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" aria-label="下一篇" href="/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">上一篇</span>
-      <span id="i-next" class="info" style="display:none;">下一篇</span>
-      <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&text=WEB-无境SRC靶场"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&is_video=false&description=WEB-无境SRC靶场"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=WEB-无境SRC靶场&body=Check out this article: http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&name=WEB-无境SRC靶场&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&t=WEB-无境SRC靶场"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-    
-    
-      <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">支付漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.1.</span> <span class="toc-text">简单支付漏洞之整数溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">简单支付漏洞之优惠券数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E9%87%91%E9%A2%9D%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.</span> <span class="toc-text">简单支付漏洞之金额修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7"><span class="toc-number">1.4.</span> <span class="toc-text">简单支付漏洞之订单编号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5"><span class="toc-number">1.5.</span> <span class="toc-text">简单支付漏洞之四舍五入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.</span> <span class="toc-text">简单支付漏洞之优惠券遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text">越权漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS%E4%B8%8D%E8%83%BD%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E5%8F%88%E5%8A%A0%E5%AF%86%EF%BC%8C%E5%92%8B%E6%95%B4"><span class="toc-number">2.1.</span> <span class="toc-text">JS不能分析数据又加密，咋整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BID%E8%B6%8A%E6%9D%83"><span class="toc-number">2.2.</span> <span class="toc-text">简单越权漏洞之ID越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BJS%E9%80%86%E5%90%91"><span class="toc-number">2.3.</span> <span class="toc-text">简单越权漏洞之JS逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">逻辑漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%BC%8F%E6%B4%9E%E4%B9%8B%E7%BB%84%E5%90%88%E7%8E%AF%E5%A2%83%E4%B8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单漏洞之组合环境一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95-%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E4%BA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">简单-任意用户登录二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">简单逻辑漏洞之任意用户登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%8A%A5%E5%91%8A%E4%B9%8Bsql%E6%B3%A8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">真实报告之sql注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">5.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-csrf%E7%9A%84%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F"><span class="toc-number">5.1.</span> <span class="toc-text">xss+csrf的简单模拟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">6.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E4%B8%AA%E6%8E%A5%E5%8F%A3%E9%9A%90%E8%97%8F%E4%BA%86%EF%BC%8C%E6%89%BE%E5%88%B0%E5%AE%83"><span class="toc-number">6.1.</span> <span class="toc-text">有个接口隐藏了，找到它</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
-      </div>
-    
-  </span>
-</div>
-
-    
-    <div class="content index py4 ">
-        
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle p-name" itemprop="name headline">
-        WEB-无境SRC靶场
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span class="p-name" itemprop="name">Maododo</span>
-      </span>
-      
-    <div class="postdate">
-      
-        <time datetime="2026-03-11T14:06:55.000Z" class="dt-published" itemprop="datePublished">2026-03-11</time>
-        
-      
-    </div>
-
-
-      
-
-      
-    <div class="article-tag">
-        <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/WEB/" rel="tag">WEB</a>
-    </div>
-
-
-    </div>
-  </header>
-  
-
-  <div class="content e-content" itemprop="articleBody">
-    <p>​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。</p>
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Maododo&#039;s Tech</a></div><div class="navbar-menu"><div class="navbar-end"></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2026-03-11T14:06:55.000Z" title="2026/3/11 22:06:55">2026-03-11</time>发表</span><span class="level-item"><time dateTime="2026-03-11T14:06:55.668Z" title="2026/3/11 22:06:55">2026-03-11</time>更新</span></div></div><h1 class="title is-3 is-size-4-mobile">WEB-无境SRC靶场</h1><div class="content"><p>​	小六推荐了这个靶场，好久没玩玩靶场了，扫了一眼，题目都是比较感兴趣的，打一打，顺便总结整理一下平时挖洞时思路与技巧。前段时间心血来潮在看GoF设计模式，花费了很多时间用来学习和练习，看这个进度也是要等好久才能输出关于设计模式的文章了，安卓逆向进度也放一放，慢慢来吧。</p>
 <p>​	既然是SRC，那这个系列就点到为止，尽量不使用自动化工具，手工证明即可，不以拿flag为目标。</p>
 <h2 id="支付漏洞"><a href="#支付漏洞" class="headerlink" title="支付漏洞"></a>支付漏洞</h2><p>​	这里的支付漏洞还是相当简单的，也是面试中的常被问到的点。</p>
 <h3 id="简单支付漏洞之整数溢出"><a href="#简单支付漏洞之整数溢出" class="headerlink" title="简单支付漏洞之整数溢出"></a>简单支付漏洞之整数溢出</h3><p>​	做这道题之前，需要了解一些基础的数值的数据类型：</p>
@@ -347,144 +177,11 @@
 <h2 id="信息泄露"><a href="#信息泄露" class="headerlink" title="信息泄露"></a>信息泄露</h2><h3 id="有个接口隐藏了，找到它"><a href="#有个接口隐藏了，找到它" class="headerlink" title="有个接口隐藏了，找到它"></a>有个接口隐藏了，找到它</h3><p>​	直接扫目录，扫到了swagger，拼接接口（这个我是真的想不到得拼接admin，看了评论区才知道要这样整，还是太菜了）</p>
 <p><img src="/../../images/067.png" alt="拼接接口"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​	这个SRC靶场就这么打完了，这个靶场还是比较简单的，但有些点确实想不到，多练吧，没别的说的，菜就多练。</p>
-
-  </div>
-</article>
-
-
-
-        
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-        
-          <li><a href="/">首页</a></li>
-        
-          <li><a href="/about/">关于</a></li>
-        
-          <li><a href="/archives/">归档</a></li>
-        
-          <li><a href="/links/">友链</a></li>
-        
-      </ul>
-    </div>
-
-    
-    
-      <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">支付漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E6%95%B4%E6%95%B0%E6%BA%A2%E5%87%BA"><span class="toc-number">1.1.</span> <span class="toc-text">简单支付漏洞之整数溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E6%95%B0%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">简单支付漏洞之优惠券数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E9%87%91%E9%A2%9D%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.</span> <span class="toc-text">简单支付漏洞之金额修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E8%AE%A2%E5%8D%95%E7%BC%96%E5%8F%B7"><span class="toc-number">1.4.</span> <span class="toc-text">简单支付漏洞之订单编号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5"><span class="toc-number">1.5.</span> <span class="toc-text">简单支付漏洞之四舍五入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%94%AF%E4%BB%98%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BC%98%E6%83%A0%E5%88%B8%E9%81%8D%E5%8E%86"><span class="toc-number">1.6.</span> <span class="toc-text">简单支付漏洞之优惠券遍历</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.</span> <span class="toc-text">越权漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JS%E4%B8%8D%E8%83%BD%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E5%8F%88%E5%8A%A0%E5%AF%86%EF%BC%8C%E5%92%8B%E6%95%B4"><span class="toc-number">2.1.</span> <span class="toc-text">JS不能分析数据又加密，咋整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BID%E8%B6%8A%E6%9D%83"><span class="toc-number">2.2.</span> <span class="toc-text">简单越权漏洞之ID越权</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%B9%8BJS%E9%80%86%E5%90%91"><span class="toc-number">2.3.</span> <span class="toc-text">简单越权漏洞之JS逆向</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">逻辑漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%BC%8F%E6%B4%9E%E4%B9%8B%E7%BB%84%E5%90%88%E7%8E%AF%E5%A2%83%E4%B8%80"><span class="toc-number">3.1.</span> <span class="toc-text">简单漏洞之组合环境一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95-%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E4%BA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">简单-任意用户登录二</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%E4%B9%8B%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95"><span class="toc-number">3.3.</span> <span class="toc-text">简单逻辑漏洞之任意用户登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">SQL注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9C%9F%E5%AE%9E%E6%8A%A5%E5%91%8A%E4%B9%8Bsql%E6%B3%A8%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">真实报告之sql注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">5.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-csrf%E7%9A%84%E7%AE%80%E5%8D%95%E6%A8%A1%E6%8B%9F"><span class="toc-number">5.1.</span> <span class="toc-text">xss+csrf的简单模拟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="toc-number">6.</span> <span class="toc-text">信息泄露</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E4%B8%AA%E6%8E%A5%E5%8F%A3%E9%9A%90%E8%97%8F%E4%BA%86%EF%BC%8C%E6%89%BE%E5%88%B0%E5%AE%83"><span class="toc-number">6.1.</span> <span class="toc-text">有个接口隐藏了，找到它</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">7.</span> <span class="toc-text">总结</span></a></li></ol>
-      </div>
-    
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&text=WEB-无境SRC靶场"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&is_video=false&description=WEB-无境SRC靶场"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=WEB-无境SRC靶场&body=Check out this article: http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&title=WEB-无境SRC靶场"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&name=WEB-无境SRC靶场&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2026/03/11/WEB-%E6%97%A0%E5%A2%83SRC%E9%9D%B6%E5%9C%BA/&t=WEB-无境SRC靶场"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
-        
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
-        
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
-    </div>
-
-  </div>
-</div>
-
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy;
-    
-    
-    2025-2026
-    Maododo
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-        <!--
-       --><li><a href="/">首页</a></li><!--
-     --><!--
-       --><li><a href="/about/">关于</a></li><!--
-     --><!--
-       --><li><a href="/archives/">归档</a></li><!--
-     --><!--
-       --><li><a href="/links/">友链</a></li><!--
-     -->
-      </ul>
-    </nav>
-  </div>
-</footer>
-
-    </div>
-    <!-- styles -->
-
-
-
-  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
-
-
-    <!-- jquery -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
-
-
-
-
-<!-- clipboard -->
-
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
-  
-  <script type="text/javascript">
-  $(function() {
-    // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
-    btn += '<i class="fa-regular fa-clone"></i>';
-    btn += '</span>';
-    // mount it!
-    $(".highlight table").before(btn);
-    var clip = new ClipboardJS('.btn-copy', {
-      text: function(trigger) {
-        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
-      }
-    });
-    clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "复制成功！");
-      e.clearSelection();
-    })
-  })
-  </script>
-
-
-<script src="/js/main.js"></script>
-
-<!-- search -->
-
-<!-- Baidu Analytics -->
-
-<!-- Cloudflare Analytics -->
-
-<!-- Disqus Comments -->
-
-<!-- utterances Comments -->
-
-</body>
-</html>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/WEB/">WEB</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2026/02/06/Android%E9%80%86%E5%90%91-NDK%E5%BC%80%E5%8F%91%E5%88%9D%E8%AF%95/"><span class="level-item">Android逆向-NDK开发初试</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><!--!--><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Maododo&#039;s Tech</a><p class="is-size-7"><span>&copy; 2026 Maododo</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><!--!--><script data-pjax src="/js/main.js" defer></script><!--!--></body></html>

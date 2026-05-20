@@ -1,175 +1,35 @@
-<!DOCTYPE html>
-<html lang=zh>
-<head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。 Webpack 识别​	是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。 ​	下面是webpack的特征： 12345678&#x2F;&#x2F;文件开头存明显的webpack字样(this.webpackJsonp &#x3D; this.webpackJsonp || []).push([[&quot;chunk">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JS逆向-WebPack">
-<meta property="og:url" content="http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/index.html">
-<meta property="og:site_name" content="Maododo&#39;s Blog">
-<meta property="og:description" content="​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。 Webpack 识别​	是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。 ​	下面是webpack的特征： 12345678&#x2F;&#x2F;文件开头存明显的webpack字样(this.webpackJsonp &#x3D; this.webpackJsonp || []).push([[&quot;chunk">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/001.png">
-<meta property="og:image" content="http://example.com/images/002.png">
-<meta property="og:image" content="http://example.com/images/003.png">
-<meta property="og:image" content="http://example.com/images/004.png">
-<meta property="og:image" content="http://example.com/images/005.png">
-<meta property="og:image" content="http://example.com/images/006.png">
-<meta property="og:image" content="http://example.com/images/007.png">
-<meta property="og:image" content="http://example.com/images/008.png">
-<meta property="article:published_time" content="2025-12-22T08:28:23.000Z">
-<meta property="article:modified_time" content="2026-01-07T12:40:02.796Z">
-<meta property="article:author" content="Maododo">
-<meta property="article:tag" content="JS逆向">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/001.png">
-    
-    
-      
-        
-          <link rel="shortcut icon" href="/images/favicon.ico">
-        
-      
-      
-        
-          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-        
-      
-      
-        
-          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        
-      
-    
-    <!-- title -->
-    <title>JS逆向-WebPack</title>
-    <!-- async scripts -->
-    <!-- Google Analytics -->
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>JS逆向-WebPack - Maododo&#039;s Tech</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Maododo&#039;s Tech"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Maododo&#039;s Tech"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。 Webpack 识别​	是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。 ​	下面是webpack的特征： 12345678&amp;#x2F;&amp;#x2F;文件开头存明显的webpack字样(this.webpackJsonp &amp;#x3D; this.webpackJsonp || []).push([[&amp;quot;chunk"><meta property="og:type" content="article"><meta property="og:title" content="JS逆向-WebPack"><meta property="og:url" content="https://ghbbhc.github.io/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><meta property="og:site_name" content="Maododo&#039;s Tech"><meta property="og:description" content="​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。 Webpack 识别​	是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。 ​	下面是webpack的特征： 12345678&amp;#x2F;&amp;#x2F;文件开头存明显的webpack字样(this.webpackJsonp &amp;#x3D; this.webpackJsonp || []).push([[&amp;quot;chunk"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://ghbbhc.github.io/images/001.png"><meta property="og:image" content="https://ghbbhc.github.io/images/002.png"><meta property="og:image" content="https://ghbbhc.github.io/images/003.png"><meta property="og:image" content="https://ghbbhc.github.io/images/004.png"><meta property="og:image" content="https://ghbbhc.github.io/images/005.png"><meta property="og:image" content="https://ghbbhc.github.io/images/006.png"><meta property="og:image" content="https://ghbbhc.github.io/images/007.png"><meta property="og:image" content="https://ghbbhc.github.io/images/008.png"><meta property="article:published_time" content="2025-12-22T08:28:23.000Z"><meta property="article:modified_time" content="2026-01-07T12:40:02.796Z"><meta property="article:author" content="Maododo"><meta property="article:tag" content="JS逆向"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://ghbbhc.github.io/images/001.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ghbbhc.github.io/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"},"headline":"JS逆向-WebPack","image":["https://ghbbhc.github.io/images/001.png","https://ghbbhc.github.io/images/002.png","https://ghbbhc.github.io/images/003.png","https://ghbbhc.github.io/images/004.png","https://ghbbhc.github.io/images/005.png","https://ghbbhc.github.io/images/006.png","https://ghbbhc.github.io/images/007.png","https://ghbbhc.github.io/images/008.png"],"datePublished":"2025-12-22T08:28:23.000Z","dateModified":"2026-01-07T12:40:02.796Z","author":{"@type":"Person","name":"Maododo"},"publisher":{"@type":"Organization","name":"Maododo's Tech","logo":{"@type":"ImageObject"}},"description":"​\t纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。 Webpack 识别​\t是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。 ​\t下面是webpack的特征： 12345678&#x2F;&#x2F;文件开头存明显的webpack字样(this.webpackJsonp &#x3D; this.webpackJsonp || []).push([[&quot;chunk"}</script><link rel="canonical" href="https://ghbbhc.github.io/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
 
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
 
-    <!-- Umami Analytics -->
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
 
-
-    <!-- styles -->
-    
-<link rel="stylesheet" href="/css/style.css">
-
-    <!-- persian styles -->
-    
-    <!-- rss -->
-    
-    
-	<!-- mathjax -->
-	
-<meta name="generator" content="Hexo 8.1.1"></head>
-
-<body class="max-width mx-auto px3 ltr">
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-        <!--
-       --><li><a href="/">首页</a></li><!--
-     --><!--
-       --><li><a href="/about/">关于</a></li><!--
-     --><!--
-       --><li><a href="/archives/">归档</a></li><!--
-     --><!--
-       --><li><a href="/links/">友链</a></li><!--
-     -->
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" aria-label="上一篇" href="/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" aria-label="下一篇" href="/2025/12/16/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">上一篇</span>
-      <span id="i-next" class="info" style="display:none;">下一篇</span>
-      <span id="i-top" class="info" style="display:none;">返回顶部</span>
-      <span id="i-share" class="info" style="display:none;">分享文章</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&text=JS逆向-WebPack"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&is_video=false&description=JS逆向-WebPack"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=JS逆向-WebPack&body=Check out this article: http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&name=JS逆向-WebPack&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&t=JS逆向-WebPack"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-    
-    
-      <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack-%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">Webpack 识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%86%E5%90%91Webpack%E4%BB%A3%E7%A0%81%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何逆向Webpack代码？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">3.</span> <span class="toc-text">例子</span></a></li></ol>
-      </div>
-    
-  </span>
-</div>
-
-    
-    <div class="content index py4 ">
-        
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle p-name" itemprop="name headline">
-        JS逆向-WebPack
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span class="p-name" itemprop="name">Maododo</span>
-      </span>
-      
-    <div class="postdate">
-      
-        <time datetime="2025-12-22T08:28:23.000Z" class="dt-published" itemprop="datePublished">2025-12-22</time>
-        
-      
-    </div>
-
-
-      
-
-      
-    <div class="article-tag">
-        <i class="fa-solid fa-tag"></i>
-        <a class="p-category" href="/tags/JS%E9%80%86%E5%90%91/" rel="tag">JS逆向</a>
-    </div>
-
-
-    </div>
-  </header>
-  
-
-  <div class="content e-content" itemprop="articleBody">
-    <p>​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。</p>
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Maododo&#039;s Tech</a></div><div class="navbar-menu"><div class="navbar-end"></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-12-22T08:28:23.000Z" title="2025/12/22 16:28:23">2025-12-22</time>发表</span><span class="level-item"><time dateTime="2026-01-07T12:40:02.796Z" title="2026/1/7 20:40:02">2026-01-07</time>更新</span></div></div><h1 class="title is-3 is-size-4-mobile">JS逆向-WebPack</h1><div class="content"><p>​	纸老虎，看着挺多挺唬人，其实很简单，麻烦一点，要耐心。</p>
 <h2 id="Webpack-识别"><a href="#Webpack-识别" class="headerlink" title="Webpack 识别"></a>Webpack 识别</h2><p>​	是一个javascript静态打包工具，他的作用是将js代码进行分割，模块化，提高js的加载效率。</p>
 <p>​	下面是webpack的特征：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//文件开头存明显的webpack字样</span></span><br><span class="line">(<span class="variable language_">this</span>.<span class="property">webpackJsonp</span> = <span class="variable language_">this</span>.<span class="property">webpackJsonp</span> || []).<span class="title function_">push</span>([[<span class="string">&quot;chunk-83ba&quot;</span>], &#123;xxx&#125;</span><br><span class="line"><span class="comment">//文件开头为自执行函数</span></span><br><span class="line">!<span class="keyword">function</span>(<span class="params">xxx</span>)&#123;xxx&#125;</span><br><span class="line">(<span class="keyword">function</span>(<span class="params">xxx</span>)&#123;xxx&#125;)</span><br><span class="line"><span class="comment">//存在大量闭包函数</span></span><br><span class="line"><span class="string">&quot;xxxx1&quot;</span>: <span class="keyword">function</span>(<span class="params">xxx</span>)&#123;xxxx&#125;,</span><br><span class="line"><span class="string">&quot;xxxx2&quot;</span>: <span class="keyword">function</span>(<span class="params">xxx</span>)&#123;xxxx&#125;</span><br></pre></td></tr></table></figure>
@@ -211,144 +71,11 @@
 <p><img src="/../../images/007.png" alt="调试所需模块"></p>
 <p>​	补了一共51个模块，不报错了，最后查看一下模块内部的导出名，是b，运行一下，没报错。</p>
 <p><img src="/../../images/008.png" alt="本地化webpack"></p>
-
-  </div>
-</article>
-
-
-
-        
-          <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-        
-          <li><a href="/">首页</a></li>
-        
-          <li><a href="/about/">关于</a></li>
-        
-          <li><a href="/archives/">归档</a></li>
-        
-          <li><a href="/links/">友链</a></li>
-        
-      </ul>
-    </div>
-
-    
-    
-      <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Webpack-%E8%AF%86%E5%88%AB"><span class="toc-number">1.</span> <span class="toc-text">Webpack 识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%80%86%E5%90%91Webpack%E4%BB%A3%E7%A0%81%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">如何逆向Webpack代码？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90"><span class="toc-number">3.</span> <span class="toc-text">例子</span></a></li></ol>
-      </div>
-    
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&text=JS逆向-WebPack"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&is_video=false&description=JS逆向-WebPack"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=JS逆向-WebPack&body=Check out this article: http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&title=JS逆向-WebPack"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&name=JS逆向-WebPack&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/12/22/js%E9%80%86%E5%90%91-Webpack/&t=JS逆向-WebPack"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
-        
-          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
-        
-        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
-        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
-    </div>
-
-  </div>
-</div>
-
-        
-        <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy;
-    
-    
-    2025-2026
-    Maododo
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-        <!--
-       --><li><a href="/">首页</a></li><!--
-     --><!--
-       --><li><a href="/about/">关于</a></li><!--
-     --><!--
-       --><li><a href="/archives/">归档</a></li><!--
-     --><!--
-       --><li><a href="/links/">友链</a></li><!--
-     -->
-      </ul>
-    </nav>
-  </div>
-</footer>
-
-    </div>
-    <!-- styles -->
-
-
-
-  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
-
-
-    <!-- jquery -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
-
-
-
-
-<!-- clipboard -->
-
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
-  
-  <script type="text/javascript">
-  $(function() {
-    // copy-btn HTML
-    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
-    btn += '<i class="fa-regular fa-clone"></i>';
-    btn += '</span>';
-    // mount it!
-    $(".highlight table").before(btn);
-    var clip = new ClipboardJS('.btn-copy', {
-      text: function(trigger) {
-        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
-      }
-    });
-    clip.on('success', function(e) {
-      e.trigger.setAttribute('aria-label', "复制成功！");
-      e.clearSelection();
-    })
-  })
-  </script>
-
-
-<script src="/js/main.js"></script>
-
-<!-- search -->
-
-<!-- Baidu Analytics -->
-
-<!-- Cloudflare Analytics -->
-
-<!-- Disqus Comments -->
-
-<!-- utterances Comments -->
-
-</body>
-</html>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/JS%E9%80%86%E5%90%91/">JS逆向</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2025/12/23/JS%E9%80%86%E5%90%91-OB%E6%B7%B7%E6%B7%86/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">JS逆向-OB混淆</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/12/16/hello-world/"><span class="level-item">Hello World</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><!--!--><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Maododo&#039;s Tech</a><p class="is-size-7"><span>&copy; 2026 Maododo</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><!--!--><script data-pjax src="/js/main.js" defer></script><!--!--></body></html>
