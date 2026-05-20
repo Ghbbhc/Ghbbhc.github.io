@@ -33,16 +33,19 @@
 <style>
 :root {
   --theme-color: #3273dc;
-  --theme-bg: #fff;
+  --theme-bg: #f5f7fa;
   --theme-text: #4a4a4a;
   --theme-card: #fff;
   --theme-border: #eee;
 }
-.theme-orange { --theme-color: #e8833a; }
-.theme-green  { --theme-color: #23d160; }
-.theme-purple { --theme-color: #b86bff; }
-.theme-red    { --theme-color: #ff3860; }
+.theme-orange { --theme-color: #e8833a; --theme-bg: #fef8f2; }
+.theme-green  { --theme-color: #23d160; --theme-bg: #f2faf5; }
+.theme-purple { --theme-color: #b86bff; --theme-bg: #f8f5fe; }
+.theme-red    { --theme-color: #ff3860; --theme-bg: #fef5f5; }
 .theme-dark   { --theme-color: #5da3ff; --theme-bg: #1a1a2e; --theme-text: #ccc; --theme-card: #16213e; --theme-border: #333; }
+
+/* background — always applied */
+body { background: var(--theme-bg); }
 
 /* accent color applied to page elements */
 .navbar-item:hover,
@@ -51,13 +54,14 @@ a:not(.button):not(.navbar-item):not(.pagination-link):not(.friend-card) { color
 .pagination-link.is-current { background: var(--theme-color) !important; border-color: var(--theme-color) !important; }
 .tag:not(.is-delete) { background: var(--theme-color) !important; color: #fff; }
 .button.is-primary { background: var(--theme-color) !important; }
+.card { background: var(--theme-card); }
 .card:hover { box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-color) 20%, transparent); }
 .article .title a:hover { color: var(--theme-color) !important; }
 .widget .menu-list a:hover { color: var(--theme-color) !important; }
 ::selection { background: color-mix(in srgb, var(--theme-color) 30%, transparent); }
 
 /* dark mode overrides */
-.theme-dark body { background: var(--theme-bg); color: var(--theme-text); }
+.theme-dark body { color: var(--theme-text); }
 .theme-dark .card,
 .theme-dark .article,
 .theme-dark .widget,
