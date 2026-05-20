@@ -38,14 +38,15 @@
   --theme-card: #fff;
   --theme-border: #eee;
 }
+.theme-white  { --theme-color: #3273dc; --theme-bg: #ffffff; }
 .theme-orange { --theme-color: #e8833a; --theme-bg: #fef8f2; }
 .theme-green  { --theme-color: #23d160; --theme-bg: #f2faf5; }
 .theme-purple { --theme-color: #b86bff; --theme-bg: #f8f5fe; }
 .theme-red    { --theme-color: #ff3860; --theme-bg: #fef5f5; }
 .theme-dark   { --theme-color: #5da3ff; --theme-bg: #1a1a2e; --theme-text: #ccc; --theme-card: #16213e; --theme-border: #333; }
 
-/* background — always applied */
-body { background: var(--theme-bg); }
+/* background — always applied, !important fights theme defaults */
+body { background: var(--theme-bg) !important; }
 
 /* accent color applied to page elements */
 .navbar-item:hover,
@@ -94,7 +95,7 @@ a:not(.button):not(.navbar-item):not(.pagination-link):not(.friend-card) { color
   position: fixed; bottom: 72px; right: 24px; z-index: 9999;
   background: #fff; border-radius: 12px; padding: 12px; display: none;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15); gap: 8px;
-  grid-template-columns: repeat(3, 36px);
+  grid-template-columns: repeat(4, 36px);
 }
 .color-picker-panel.open { display: grid; }
 .color-dot {
@@ -171,6 +172,7 @@ a:not(.button):not(.navbar-item):not(.pagination-link):not(.friend-card) { color
 <div class="color-picker-btn" id="colorBtn" title="更换配色">🎨</div>
 <div class="color-picker-panel" id="colorPanel">
   <div class="color-dot active" data-theme="" style="background:#3273dc;" title="默认蓝"></div>
+  <div class="color-dot" data-theme="theme-white" style="background:#ffffff;border:2px solid #ddd;" title="白色"></div>
   <div class="color-dot" data-theme="theme-orange" style="background:#e8833a;" title="橙色"></div>
   <div class="color-dot" data-theme="theme-green" style="background:#23d160;" title="绿色"></div>
   <div class="color-dot" data-theme="theme-purple" style="background:#b86bff;" title="紫色"></div>
