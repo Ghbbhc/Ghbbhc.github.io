@@ -29,7 +29,68 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/images/ghbbhc.jpg" alt="Maododo&#039;s Tech" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/links">友链</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/tags/">标签</a></li><li class="is-active"><a href="#" aria-current="page">JS逆向</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2026-01-07T03:29:48.000Z" title="2026/1/7 11:29:48">2026-01-07</time>发表</span><span class="level-item"><time dateTime="2026-05-20T02:37:01.137Z" title="2026/5/20 10:37:01">2026-05-20</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JS%E9%80%86%E5%90%91/">JS逆向</a></span><span class="level-item">17 分钟读完 (大约2520个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/">JS逆向-JSVMP</a></p><div class="content"><p>​	JSVMP（JavaScript Virtual Machine-Based Protect）JS虚拟机保护，VMP技术就是将原有的代码，转化为专用的字节码，由自写解释器进行解释执行，以此大幅提升逆向分析的成本，同样的，由于代码量的增加，运行效率也会大打折扣。</p>
+  </script>
+<style>
+:root {
+  --theme-color: #3273dc;
+  --theme-bg: #fff;
+  --theme-text: #4a4a4a;
+  --theme-card: #fff;
+  --theme-border: #eee;
+}
+.theme-orange { --theme-color: #e8833a; }
+.theme-green  { --theme-color: #23d160; }
+.theme-purple { --theme-color: #b86bff; }
+.theme-red    { --theme-color: #ff3860; }
+.theme-dark   { --theme-color: #3273dc; --theme-bg: #1a1a2e; --theme-text: #ccc; --theme-card: #16213e; --theme-border: #333; }
+
+/* apply theme colors */
+.theme-dark body { background: var(--theme-bg); color: var(--theme-text); }
+.theme-dark .card,
+.theme-dark .article,
+.theme-dark .widget,
+.theme-dark .navbar,
+.theme-dark .footer,
+.theme-dark .level,
+.theme-dark .box { background: var(--theme-card) !important; border-color: var(--theme-border) !important; }
+.theme-dark a:not(.button):not(.navbar-item) { color: #5da3ff; }
+.theme-dark .navbar-item { color: var(--theme-text) !important; }
+.theme-dark .title,
+.theme-dark .subtitle { color: #eee !important; }
+.theme-dark .card-content { color: var(--theme-text); }
+.theme-dark .pagination-link { background: var(--theme-card); border-color: var(--theme-border); color: var(--theme-text); }
+.theme-dark input, .theme-dark .input, .theme-dark .textarea { background: var(--theme-card); color: var(--theme-text); border-color: var(--theme-border); }
+.theme-dark .footer { border-top: 1px solid var(--theme-border); }
+.theme-dark code { background: #2a2a3e; color: #e0e0e0; }
+.theme-dark pre { background: #16213e !important; }
+.theme-dark .navbar-menu { background: var(--theme-card) !important; }
+
+/* color picker */
+.color-picker-btn {
+  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+  width: 40px; height: 40px; border-radius: 50%; border: none;
+  background: var(--theme-color); color: #fff; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-size: 18px;
+  transition: transform 0.3s; display: flex; align-items: center; justify-content: center;
+}
+.color-picker-btn:hover { transform: scale(1.15); }
+.color-picker-panel {
+  position: fixed; bottom: 72px; right: 24px; z-index: 9999;
+  background: #fff; border-radius: 12px; padding: 12px; display: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15); gap: 8px;
+  grid-template-columns: repeat(4, 32px);
+}
+.color-picker-panel.open { display: grid; }
+.color-dot {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer; transition: transform 0.2s;
+}
+.color-dot:hover { transform: scale(1.2); }
+.color-dot.active { border-color: #333; }
+.theme-dark .color-picker-panel { background: #2a2a3e; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+.theme-dark .color-dot.active { border-color: #fff; }
+</style>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.1.1"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/images/ghbbhc.jpg" alt="Maododo&#039;s Tech" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/links">友链</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/tags/">标签</a></li><li class="is-active"><a href="#" aria-current="page">JS逆向</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2026-01-07T03:29:48.000Z" title="2026/1/7 11:29:48">2026-01-07</time>发表</span><span class="level-item"><time dateTime="2026-05-20T02:37:01.137Z" title="2026/5/20 10:37:01">2026-05-20</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JS%E9%80%86%E5%90%91/">JS逆向</a></span><span class="level-item">17 分钟读完 (大约2520个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/2026/01/07/JS%E9%80%86%E5%90%91-JSVMP/">JS逆向-JSVMP</a></p><div class="content"><p>​	JSVMP（JavaScript Virtual Machine-Based Protect）JS虚拟机保护，VMP技术就是将原有的代码，转化为专用的字节码，由自写解释器进行解释执行，以此大幅提升逆向分析的成本，同样的，由于代码量的增加，运行效率也会大打折扣。</p>
 <p>​	这里谈一谈一个概念，解释执行，就是将源代码逐行转换为机器码然后再执行。类似于JAVA的JVM，将字节码转换成机器码再执行，但是在JSVMP中，这里的的机器码就不再是可供CPU执行的x86&#x2F;ARM指令，而是我们自定义的虚拟指令序列，实质上还是JS代码。</p>
 <p>​	之前在windows软件、安卓native层中也遇到过VMP加壳，原理完全相同，比较亲切，但是在保护的对象和实际技术应用上，有着很大的区别，这里就不细谈了，等后续博客更新到安卓逆向或者windows 逆向，可能会拿在一起详细讲讲（？？哪来的鸽子叫）。</p>
 <h2 id="JSVMP识别"><a href="#JSVMP识别" class="headerlink" title="JSVMP识别"></a>JSVMP识别</h2><p>​	JSVMP加密技术：原理、实现与攻防策略解析</p>
@@ -206,4 +267,43 @@
             }
         });</script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
             loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
-        });</script></body></html>
+        });</script><!-- hexo injector body_end start -->
+<div class="color-picker-btn" id="colorBtn" title="更换配色">🎨</div>
+<div class="color-picker-panel" id="colorPanel">
+  <div class="color-dot" data-theme="" style="background:#3273dc;border-color:#ccc;" title="默认蓝"></div>
+  <div class="color-dot" data-theme="theme-orange" style="background:#e8833a;" title="橙色"></div>
+  <div class="color-dot" data-theme="theme-green" style="background:#23d160;" title="绿色"></div>
+  <div class="color-dot" data-theme="theme-purple" style="background:#b86bff;" title="紫色"></div>
+  <div class="color-dot" data-theme="theme-red" style="background:#ff3860;" title="红色"></div>
+  <div class="color-dot" data-theme="theme-dark" style="background:#1a1a2e;border:2px solid #555;" title="暗色模式"></div>
+</div>
+<script>
+(function(){
+  var btn = document.getElementById('colorBtn');
+  var panel = document.getElementById('colorPanel');
+  var body = document.documentElement;
+  var currentTheme = localStorage.getItem('icarus-theme') || '';
+
+  function applyTheme(name) {
+    body.className = body.className.replace(/theme-w+/g, '').trim();
+    if(name) body.classList.add(name);
+    localStorage.setItem('icarus-theme', name);
+    document.querySelectorAll('.color-dot').forEach(function(d){
+      d.classList.toggle('active', d.dataset.theme === name);
+    });
+  }
+
+  applyTheme(currentTheme);
+
+  btn.addEventListener('click', function(e){ e.stopPropagation(); panel.classList.toggle('open'); });
+  document.addEventListener('click', function(){ panel.classList.remove('open'); });
+  panel.addEventListener('click', function(e){
+    e.stopPropagation();
+    var dot = e.target.closest('.color-dot');
+    if(!dot) return;
+    applyTheme(dot.dataset.theme);
+    panel.classList.remove('open');
+  });
+})();
+</script>
+<!-- hexo injector body_end end --></body></html>
